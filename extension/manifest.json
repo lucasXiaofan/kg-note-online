@@ -9,8 +9,10 @@
     "identity.email",
     "storage",
     "activeTab",
+    "tabs",
     "contextMenus",
-    "scripting"
+    "scripting",
+    "system.display"
   ],
   
   "host_permissions": [

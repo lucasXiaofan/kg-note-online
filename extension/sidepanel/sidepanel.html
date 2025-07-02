@@ -5,33 +5,96 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Knowledge Graph Notes</title>
     <link rel="stylesheet" href="sidepanel.css">
+    <style>
+        :root {
+            --panel-opacity: 0.95;
+        }
+        
+        body {
+            background: rgba(17, 24, 39, var(--panel-opacity));
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .floating-panel {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 420px;
+            max-height: calc(100vh - 40px);
+            background: rgba(31, 41, 55, var(--panel-opacity));
+            border: 1px solid rgba(75, 85, 99, 0.5);
+            border-radius: 12px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .drag-handle {
+            cursor: move;
+            background: linear-gradient(90deg, rgba(59, 130, 246, 0.5), rgba(147, 51, 234, 0.5));
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <div class="header-content">
-                <h1>📝 Quick Note</h1>
-                <div class="header-actions">
-                    <button id="openPopupBtn" class="btn-icon" title="Open main popup">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                        </svg>
-                    </button>
+    <div id="floating-panel" class="floating-panel">
+        <!-- Drag Handle -->
+        <div id="drag-handle" class="drag-handle">
+            <div class="flex items-center space-x-2">
+                <div class="w-2 h-2 bg-red-500 rounded-full"></div>
+                <div class="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                <span class="text-xs font-medium text-white ml-2">📝 Knowledge Graph Notes</span>
+            </div>
+            <div class="flex items-center space-x-1">
+                <button id="opacity-btn" class="text-white/70 hover:text-white text-xs px-2 py-1 rounded">
+                    🔍 95%
+                </button>
+                <button id="closeBtn" class="text-white/70 hover:text-white text-sm">×</button>
+            </div>
+        </div>
+
+        <div id="authPrompt" class="auth-prompt" style="display: none;">
+            <p>Please sign in through the main popup to save notes</p>
+        </div>
+
+        <!-- Webpage Context (Human Readable) -->
+        <div id="context-section" class="context-section">
+            <div class="flex items-center justify-between mb-2">
+                <h2>📄 Context</h2>
+                <button id="toggle-context" class="text-xs text-gray-400 hover:text-gray-200 transition-colors">Hide</button>
+            </div>
+            <div id="context-content" class="context-content">
+                <div id="page-title" class="page-title"></div>
+                <div id="page-url" class="page-url" title="Click to open"></div>
+                <div id="page-summary" class="page-summary" style="display: none;"></div>
+                <div id="video-info" class="video-info" style="display: none;">
+                    <div class="text-red-300 font-medium text-xs mb-1">🎥 YouTube Video</div>
+                    <div id="video-title" class="text-xs font-medium"></div>
+                    <div id="video-time" class="text-xs text-gray-400 mt-1"></div>
+                    <div id="timestamped-url" class="text-xs text-blue-400 mt-1 cursor-pointer hover:text-blue-300" title="Click to open at current time"></div>
                 </div>
             </div>
-            <div id="authPrompt" class="auth-prompt" style="display: none;">
-                <p>Please sign in through the main popup to save notes</p>
-            </div>
-        </header>
+        </div>
 
-        <!-- Quick Note Section -->
+        <!-- JSON Context Section (for Categorization) -->
+        <div id="json-context-section" class="json-context-section">
+            <h3>
+                🗂️ Context JSON
+                <button id="toggle-json" class="toggle-json">Hide</button>
+            </h3>
+            <div id="json-content" class="json-content"></div>
+        </div>
+
+        <!-- Note Input Area -->
         <section class="quick-note-section">
             <div class="note-form">
                 <textarea 
                     id="noteContent" 
-                    placeholder="Page title and URL will be pre-filled. Add your notes below and press Enter to save."
-                    rows="8"
+                    placeholder="Your notes here... (Press Enter to save)"
+                    autofocus
                 ></textarea>
                 
                 <div class="note-context" id="noteContext" style="display: none;">
@@ -42,19 +105,14 @@
                 </div>
                 
                 <div class="note-actions">
-                    <button id="saveBtn" class="btn-primary" disabled>Save Note</button>
-                    <button id="clearBtn" class="btn-secondary">Clear</button>
+                    <button id="saveBtn" class="btn-primary" disabled>💾 Save Note</button>
+                    <button id="clearBtn" class="btn-secondary">✕</button>
                 </div>
                 
                 <div id="saveStatus" class="status-message"></div>
-            </div>
-        </section>
-
-        <!-- Current Page Info -->
-        <section class="page-info-section">
-            <div class="page-info" id="pageInfo">
-                <div class="page-domain" id="pageDomain">Current page</div>
-                <div class="page-title" id="pageTitle">Loading...</div>
+                
+                <!-- Related Notes Info -->
+                <div id="related-notes" class="related-notes" style="display: none;"></div>
             </div>
         </section>
 
@@ -68,14 +126,29 @@
                     Get Selection
                 </button>
                 
-                <button id="openMainBtn" class="action-btn">
+                <button id="viewNotesBtn" class="action-btn">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/>
                     </svg>
-                    View All Notes
+                    View Notes
+                </button>
+                
+                <button id="manageCategoriesBtn" class="action-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/>
+                    </svg>
+                    Categories
                 </button>
             </div>
         </section>
+
+        <!-- Status/Progress -->
+        <div id="status-section" class="status-section" style="display: none;">
+            <div id="status-text">Ready to take notes...</div>
+            <div id="progress-bar" class="progress-bar" style="display: none;">
+                <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
+            </div>
+        </div>
     </div>
 
     <script src="sidepanel.js"></script>

@@ -78,13 +78,18 @@ class KnowledgeNotesBackground {
                 windowOpenedAt: Date.now()
             });
 
-            // Create a floating window positioned on the left
+            // Create a floating window positioned on the right
+            // Get display info to position window correctly
+            const displays = await chrome.system.display.getInfo();
+            const primaryDisplay = displays.find(d => d.isPrimary) || displays[0];
+            const screenWidth = primaryDisplay.workArea.width;
+            
             const window = await chrome.windows.create({
                 url: chrome.runtime.getURL('sidepanel/sidepanel.html'),
                 type: 'popup',
                 width: 420,
                 height: 500,
-                left: 50, // Further left
+                left: screenWidth - 470, // Position on the right side
                 top: 150,
                 focused: true
             });
@@ -243,10 +248,14 @@ class KnowledgeNotesBackground {
                 console.warn('Expected ID: gpkaepmdolpcppjmjcglmlllkjhjdfdk');
             }
             
-            // Get OAuth token using Chrome Identity API
+            // Get OAuth token using Chrome Identity API with persistent login
             console.log('Requesting auth token from Chrome Identity API...');
             const accessToken = await new Promise((resolve, reject) => {
-                chrome.identity.getAuthToken({ interactive: true }, (token) => {
+                chrome.identity.getAuthToken({ 
+                    interactive: true,
+                    // Don't force interactive if user already granted permission
+                    // This allows silent re-authentication
+                }, (token) => {
                     if (chrome.runtime.lastError) {
                         console.error('Chrome Identity error:', chrome.runtime.lastError);
                         console.error('Error details:', {
@@ -335,10 +344,12 @@ class KnowledgeNotesBackground {
                 is_anonymous: false
             };
 
-            // Store in chrome storage
+            // Store in chrome storage with persistent login flag
             await chrome.storage.local.set({
                 accessToken: this.accessToken,
-                user: this.currentUser
+                user: this.currentUser,
+                authTimestamp: Date.now(),
+                persistentLogin: true // Flag to indicate user wants to stay logged in
             });
 
             console.log('Authentication successful:', this.currentUser);
@@ -415,11 +426,13 @@ class KnowledgeNotesBackground {
                 is_anonymous: false
             };
 
-            // Store in chrome storage
+            // Store in chrome storage with persistent login flag
             await chrome.storage.local.set({
                 accessToken: this.accessToken,
                 user: this.currentUser,
-                authMode: 'development'
+                authMode: 'development',
+                authTimestamp: Date.now(),
+                persistentLogin: true // Flag to indicate user wants to stay logged in
             });
 
             console.log('Development authentication successful:', this.currentUser);
@@ -441,10 +454,22 @@ class KnowledgeNotesBackground {
     async checkAuthStatus() {
         try {
             // Check stored authentication
-            const stored = await chrome.storage.local.get(['accessToken', 'user']);
+            const stored = await chrome.storage.local.get(['accessToken', 'user', 'persistentLogin', 'authTimestamp']);
             
-            if (stored.accessToken && stored.user) {
-                // Verify token is still valid
+            if (stored.accessToken && stored.user && stored.persistentLogin) {
+                console.log('Found stored authentication, attempting to restore...');
+                
+                // Check if auth is not too old (30 days max)
+                const authAge = Date.now() - (stored.authTimestamp || 0);
+                const maxAuthAge = 30 * 24 * 60 * 60 * 1000; // 30 days
+                
+                if (authAge > maxAuthAge) {
+                    console.log('Stored authentication is too old, clearing...');
+                    await this.logout();
+                    return;
+                }
+                
+                // Try to verify token is still valid
                 try {
                     const response = await this.tryApiCall('/auth/me', {
                         headers: {
@@ -455,20 +480,83 @@ class KnowledgeNotesBackground {
                     if (response.ok) {
                         this.accessToken = stored.accessToken;
                         this.currentUser = stored.user;
-                        console.log('Restored authentication for:', this.currentUser.email);
+                        console.log('Successfully restored authentication for:', this.currentUser.email);
                     } else {
-                        // Token expired, clear storage
-                        await this.logout();
+                        console.log('Stored token is invalid, attempting silent refresh...');
+                        // Try to get a fresh token silently
+                        await this.attemptSilentAuth();
                     }
                 } catch (error) {
                     console.log('Cannot verify token, API not available:', error.message);
-                    // Store the token anyway, will try again when needed
+                    // Assume token is still valid if API is unavailable
                     this.accessToken = stored.accessToken;
                     this.currentUser = stored.user;
+                    console.log('Restored authentication (API unavailable) for:', this.currentUser.email);
                 }
+            } else {
+                console.log('No stored authentication found');
             }
         } catch (error) {
             console.error('Error checking auth status:', error);
+        }
+    }
+
+    async attemptSilentAuth() {
+        try {
+            console.log('Attempting silent authentication...');
+            
+            // Try to get a fresh token without user interaction
+            const accessToken = await new Promise((resolve, reject) => {
+                chrome.identity.getAuthToken({ 
+                    interactive: false // Silent authentication
+                }, (token) => {
+                    if (chrome.runtime.lastError) {
+                        console.log('Silent auth failed:', chrome.runtime.lastError.message);
+                        reject(new Error(chrome.runtime.lastError.message));
+                    } else if (!token) {
+                        reject(new Error('No token returned'));
+                    } else {
+                        console.log('Silent auth successful');
+                        resolve(token);
+                    }
+                });
+            });
+
+            // Get fresh user info
+            const userInfoResponse = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+
+            if (userInfoResponse.ok) {
+                const userInfo = await userInfoResponse.json();
+                
+                // Update stored authentication
+                this.accessToken = accessToken;
+                this.currentUser = {
+                    user_id: userInfo.id,
+                    email: userInfo.email,
+                    name: userInfo.name,
+                    is_anonymous: false
+                };
+
+                await chrome.storage.local.set({
+                    accessToken: this.accessToken,
+                    user: this.currentUser,
+                    authTimestamp: Date.now(),
+                    persistentLogin: true
+                });
+
+                console.log('Silent authentication successful for:', this.currentUser.email);
+            } else {
+                throw new Error('Failed to get user info');
+            }
+            
+        } catch (error) {
+            console.log('Silent authentication failed:', error.message);
+            // Clear stored auth since it's no longer valid
+            await this.logout();
         }
     }
 
@@ -561,22 +649,44 @@ class KnowledgeNotesBackground {
 
     async logout() {
         try {
+            console.log('Starting logout process...');
+            
             // Clear Chrome Identity token
             if (this.accessToken) {
                 chrome.identity.removeCachedAuthToken({ token: this.accessToken });
+                
+                // Also revoke the token to fully log out from Google
+                try {
+                    await fetch(`https://oauth2.googleapis.com/revoke?token=${this.accessToken}`, {
+                        method: 'POST'
+                    });
+                    console.log('Google token revoked successfully');
+                } catch (revokeError) {
+                    console.warn('Failed to revoke token:', revokeError.message);
+                }
             }
             
-            // Clear local storage
-            await chrome.storage.local.remove(['accessToken', 'user']);
+            // Clear all authentication-related storage
+            await chrome.storage.local.remove([
+                'accessToken', 
+                'user', 
+                'persistentLogin', 
+                'authTimestamp', 
+                'authMode'
+            ]);
             
             // Clear instance variables
             this.accessToken = null;
             this.currentUser = null;
             
-            console.log('Logged out successfully');
+            console.log('Logged out successfully - all authentication data cleared');
             
         } catch (error) {
             console.error('Error during logout:', error);
+            // Ensure we clear local data even if remote logout fails
+            await chrome.storage.local.clear();
+            this.accessToken = null;
+            this.currentUser = null;
         }
     }
 

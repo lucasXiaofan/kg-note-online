@@ -1,11 +1,17 @@
-// Knowledge Graph Notes - Side Panel JavaScript (Quick Note-taking Interface)
-class SidePanelApp {
+// Knowledge Graph Notes - Floating Panel JavaScript (Quick Note-taking Interface)
+class FloatingPanelApp {
     constructor() {
         this.isAuthenticated = false;
         this.currentContext = null;
+        this.pageContext = null;
+        this.currentOpacity = 95;
+        this.isDragging = false;
+        this.dragOffset = { x: 0, y: 0 };
         
         this.initializeElements();
         this.attachEventListeners();
+        this.initializeDragging();
+        this.initializeOpacity();
         this.checkAuthStatus();
         this.loadPageInfo();
         this.setupMessageListener();
@@ -15,7 +21,27 @@ class SidePanelApp {
     initializeElements() {
         // Header elements
         this.authPrompt = document.getElementById('authPrompt');
-        this.openPopupBtn = document.getElementById('openPopupBtn');
+        this.closeBtn = document.getElementById('closeBtn');
+        this.opacityBtn = document.getElementById('opacity-btn');
+        this.floatingPanel = document.getElementById('floating-panel');
+        this.dragHandle = document.getElementById('drag-handle');
+        
+        // Context elements
+        this.contextSection = document.getElementById('context-section');
+        this.toggleContextBtn = document.getElementById('toggle-context');
+        this.contextContent = document.getElementById('context-content');
+        this.pageTitle = document.getElementById('page-title');
+        this.pageUrl = document.getElementById('page-url');
+        this.pageSummary = document.getElementById('page-summary');
+        this.videoInfo = document.getElementById('video-info');
+        this.videoTitle = document.getElementById('video-title');
+        this.videoTime = document.getElementById('video-time');
+        this.timestampedUrl = document.getElementById('timestamped-url');
+        
+        // JSON Context elements
+        this.jsonContextSection = document.getElementById('json-context-section');
+        this.toggleJsonBtn = document.getElementById('toggle-json');
+        this.jsonContent = document.getElementById('json-content');
         
         // Note form elements
         this.noteContent = document.getElementById('noteContent');
@@ -25,20 +51,28 @@ class SidePanelApp {
         this.saveBtn = document.getElementById('saveBtn');
         this.clearBtn = document.getElementById('clearBtn');
         this.saveStatus = document.getElementById('saveStatus');
-        
-        // Page info elements
-        this.pageInfo = document.getElementById('pageInfo');
-        this.pageDomain = document.getElementById('pageDomain');
-        this.pageTitle = document.getElementById('pageTitle');
+        this.relatedNotes = document.getElementById('related-notes');
         
         // Action buttons
         this.captureSelectionBtn = document.getElementById('captureSelectionBtn');
-        this.openMainBtn = document.getElementById('openMainBtn');
+        this.viewNotesBtn = document.getElementById('viewNotesBtn');
+        this.manageCategoriesBtn = document.getElementById('manageCategoriesBtn');
+        
+        // Status elements
+        this.statusSection = document.getElementById('status-section');
+        this.statusText = document.getElementById('status-text');
+        this.progressBar = document.getElementById('progress-bar');
+        this.progressFill = document.getElementById('progress-fill');
     }
 
     attachEventListeners() {
         // Header buttons
-        this.openPopupBtn.addEventListener('click', () => this.openMainPopup());
+        this.closeBtn.addEventListener('click', () => this.handleClose());
+        this.opacityBtn.addEventListener('click', () => this.cycleOpacity());
+        
+        // Context toggle
+        this.toggleContextBtn.addEventListener('click', () => this.toggleContext());
+        this.toggleJsonBtn.addEventListener('click', () => this.toggleJsonContext());
         
         // Note form
         this.noteContent.addEventListener('input', () => this.updateSaveButton());
@@ -47,10 +81,94 @@ class SidePanelApp {
         
         // Action buttons
         this.captureSelectionBtn.addEventListener('click', () => this.handleCaptureSelection());
-        this.openMainBtn.addEventListener('click', () => this.openMainPopup());
+        this.viewNotesBtn.addEventListener('click', () => this.openNotesPage());
+        this.manageCategoriesBtn.addEventListener('click', () => this.openCategoriesPage());
         
         // Keyboard shortcuts
         document.addEventListener('keydown', (e) => this.handleKeyDown(e));
+        
+        // Make page URL clickable
+        if (this.pageUrl) {
+            this.pageUrl.addEventListener('click', () => this.openCurrentPage());
+        }
+    }
+
+    initializeDragging() {
+        this.dragHandle.addEventListener('mousedown', (e) => this.startDrag(e));
+    }
+
+    startDrag(e) {
+        this.isDragging = true;
+        const rect = this.floatingPanel.getBoundingClientRect();
+        this.dragOffset.x = e.clientX - rect.left;
+        this.dragOffset.y = e.clientY - rect.top;
+        
+        document.addEventListener('mousemove', this.handleDrag.bind(this));
+        document.addEventListener('mouseup', this.stopDrag.bind(this));
+        e.preventDefault();
+    }
+
+    handleDrag(e) {
+        if (!this.isDragging) return;
+        
+        const x = e.clientX - this.dragOffset.x;
+        const y = e.clientY - this.dragOffset.y;
+        
+        // Constrain to window bounds
+        const maxX = window.innerWidth - this.floatingPanel.offsetWidth;
+        const maxY = window.innerHeight - this.floatingPanel.offsetHeight;
+        
+        this.floatingPanel.style.left = Math.max(0, Math.min(maxX, x)) + 'px';
+        this.floatingPanel.style.top = Math.max(0, Math.min(maxY, y)) + 'px';
+        this.floatingPanel.style.right = 'auto';
+    }
+
+    stopDrag() {
+        this.isDragging = false;
+        document.removeEventListener('mousemove', this.handleDrag);
+        document.removeEventListener('mouseup', this.stopDrag);
+    }
+
+    initializeOpacity() {
+        // Load saved opacity
+        const savedOpacity = localStorage.getItem('panelOpacity');
+        if (savedOpacity) {
+            this.updateOpacity(parseInt(savedOpacity));
+        }
+    }
+
+    updateOpacity(opacity) {
+        this.currentOpacity = opacity;
+        document.documentElement.style.setProperty('--panel-opacity', opacity / 100);
+        this.opacityBtn.textContent = `🔍 ${opacity}%`;
+        localStorage.setItem('panelOpacity', opacity);
+    }
+
+    cycleOpacity() {
+        const opacities = [95, 85, 75, 65, 55];
+        const currentIndex = opacities.indexOf(this.currentOpacity);
+        const nextIndex = (currentIndex + 1) % opacities.length;
+        this.updateOpacity(opacities[nextIndex]);
+    }
+
+    toggleContext() {
+        if (this.contextContent.style.display === 'none') {
+            this.contextContent.style.display = 'block';
+            this.toggleContextBtn.textContent = 'Hide';
+        } else {
+            this.contextContent.style.display = 'none';
+            this.toggleContextBtn.textContent = 'Show';
+        }
+    }
+
+    toggleJsonContext() {
+        if (this.jsonContent.style.display === 'none') {
+            this.jsonContent.style.display = 'block';
+            this.toggleJsonBtn.textContent = 'Hide';
+        } else {
+            this.jsonContent.style.display = 'none';
+            this.toggleJsonBtn.textContent = 'Show';
+        }
     }
 
     async initializeQuickNote() {
@@ -139,11 +257,6 @@ Notes:
         }
     }
 
-    openMainPopup() {
-        // Close side panel and open main popup
-        window.close();
-    }
-
     showAuthenticatedUI() {
         this.authPrompt.style.display = 'none';
         this.updateSaveButton();
@@ -159,113 +272,271 @@ Notes:
         this.saveBtn.disabled = !hasContent || !this.isAuthenticated;
     }
 
-    async handleSaveNote() {
+    async loadPageInfo() {
         try {
-            const content = this.noteContent.value.trim();
-            if (!content) {
-                this.showStatus('Please enter note content', 'error');
-                return false;
+            const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+            if (tab && tab.url && !tab.url.startsWith('chrome://')) {
+                // Send message to content script to get page content
+                const response = await this.sendMessage({ 
+                    action: 'getPageContent',
+                    tabId: tab.id 
+                });
+                
+                if (response) {
+                    this.setupPageContext(response);
+                } else {
+                    // Fallback to basic tab info
+                    this.setupBasicPageContext(tab);
+                }
+            } else {
+                this.pageTitle.textContent = 'Extension page';
+                this.pageUrl.textContent = 'Not available';
+                this.currentContext = null;
             }
+        } catch (error) {
+            console.error('Error loading page info:', error);
+            this.pageTitle.textContent = 'Unknown';
+            this.pageUrl.textContent = 'Error loading page info';
+        }
+    }
 
-            this.showStatus('Saving note...', 'loading');
-            this.saveBtn.disabled = true;
+    setupBasicPageContext(tab) {
+        const domain = new URL(tab.url).hostname;
+        const timestamp = new Date().toISOString();
+        
+        this.pageContext = {
+            title: tab.title,
+            url: tab.url,
+            domain: domain,
+            timestamp: timestamp,
+            isYouTube: tab.url.includes('youtube.com'),
+            youtube: null,
+            type: 'webpage'
+        };
+        
+        this.pageTitle.textContent = tab.title;
+        this.pageUrl.textContent = tab.url;
+        
+        // Store current context
+        this.currentContext = {
+            url: tab.url,
+            title: tab.title,
+            domain: domain,
+            timestamp: timestamp,
+            type: 'webpage'
+        };
+        
+        this.updateJsonContext();
+        this.checkRelatedNotes(tab.url);
+    }
 
+    setupPageContext(response) {
+        const timestamp = new Date().toISOString();
+        const domain = new URL(response.url).hostname;
+        
+        this.pageContext = {
+            title: response.title,
+            url: response.url,
+            summary: response.summary || '',
+            domain: domain,
+            timestamp: timestamp,
+            isYouTube: response.isYouTube || false,
+            youtube: response.youtube || null,
+            type: response.isYouTube ? 'youtube' : 'webpage'
+        };
+        
+        // Display context
+        this.pageTitle.textContent = response.title;
+        this.pageUrl.textContent = response.url;
+        
+        // Show summary if available
+        if (response.summary && response.summary.trim()) {
+            this.pageSummary.textContent = response.summary;
+            this.pageSummary.style.display = 'block';
+        }
+        
+        // Handle YouTube-specific content
+        if (response.isYouTube && response.youtube) {
+            this.setupYouTubeContext(response.youtube);
+        }
+        
+        // Store current context
+        this.currentContext = {
+            url: response.url,
+            title: response.title,
+            domain: domain,
+            timestamp: timestamp,
+            summary: response.summary || '',
+            type: response.isYouTube ? 'youtube' : 'webpage',
+            youtube: response.youtube || null
+        };
+        
+        this.updateJsonContext();
+        this.checkRelatedNotes(response.url);
+    }
+
+    setupYouTubeContext(youtube) {
+        this.videoTitle.textContent = youtube.videoTitle;
+        this.videoTime.textContent = `⏰ Current time: ${youtube.timeString} • 📺 ${youtube.channelName}`;
+        
+        if (youtube.timestampedUrl) {
+            this.timestampedUrl.textContent = `🔗 Open at ${youtube.timeString}`;
+            this.timestampedUrl.addEventListener('click', () => {
+                chrome.tabs.create({ url: youtube.timestampedUrl });
+            });
+        }
+        
+        this.videoInfo.style.display = 'block';
+        
+        // Update context with YouTube info
+        if (this.pageContext) {
+            this.pageContext.youtube = {
+                videoTitle: youtube.videoTitle,
+                channelName: youtube.channelName,
+                currentTime: youtube.currentTime || 0,
+                timeString: youtube.timeString,
+                timestampedUrl: youtube.timestampedUrl,
+                videoId: youtube.videoId || null
+            };
+            
+            this.currentContext.youtube = this.pageContext.youtube;
+            this.updateJsonContext();
+        }
+        
+        // Auto-pause video
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            if (tabs[0]) {
+                chrome.tabs.sendMessage(tabs[0].id, { action: 'pauseVideo' });
+            }
+        });
+    }
+
+    async checkRelatedNotes(url) {
+        try {
+            const response = await this.sendMessage({ type: 'GET_NOTES' });
+            
+            if (response && response.success && response.notes) {
+                const notes = response.notes;
+                const domain = new URL(url).hostname;
+                const exactUrlNotes = notes.filter(note => (note.metadata?.url || note.url) === url);
+                const sameWebsiteNotes = notes.filter(note => {
+                    const noteUrl = note.metadata?.url || note.url;
+                    return noteUrl && new URL(noteUrl).hostname === domain && noteUrl !== url;
+                });
+                
+                if (exactUrlNotes.length > 0 || sameWebsiteNotes.length > 0) {
+                    let relatedText = '';
+                    
+                    if (exactUrlNotes.length > 0) {
+                        relatedText += `📝 ${exactUrlNotes.length} note(s) from this page`;
+                    }
+                    if (sameWebsiteNotes.length > 0) {
+                        if (relatedText) relatedText += ' • ';
+                        relatedText += `🌐 ${sameWebsiteNotes.length} note(s) from ${domain}`;
+                    }
+                    
+                    this.relatedNotes.textContent = relatedText;
+                    this.relatedNotes.style.display = 'block';
+                }
+            }
+        } catch (error) {
+            console.error('Error checking related notes:', error);
+        }
+    }
+
+    openCurrentPage() {
+        if (this.currentContext && this.currentContext.url) {
+            chrome.tabs.create({ url: this.currentContext.url });
+        }
+    }
+
+    async handleSaveNote() {
+        const noteText = this.noteContent.value.trim();
+        if (!noteText) {
+            this.noteContent.focus();
+            return false;
+        }
+
+        // Show progress
+        this.showStatus('💾 Saving note...', true);
+        this.saveBtn.disabled = true;
+        this.clearBtn.disabled = true;
+
+        try {
             // Get current tab context if not already set
             let context = this.currentContext;
             if (!context) {
                 context = await this.getCurrentTabContext();
             }
 
-            try {
-                // Try background script first
-                const response = await this.sendMessage({
-                    type: 'SAVE_NOTE',
-                    data: {
-                        content: content,
-                        context: context
-                    }
-                });
+            // Send note to background for processing with enhanced context
+            const enhancedContext = {
+                ...context,
+                metadata: {
+                    url: context.url,
+                    title: context.title,
+                    domain: context.domain,
+                    timestamp: context.timestamp || new Date().toISOString(),
+                    type: context.type || 'webpage',
+                    summary: context.summary || null
+                },
+                youtube: context.youtube || null
+            };
 
-                if (response && response.success) {
-                    this.showStatus('Note saved successfully!', 'success');
-                    return true;
-                } else {
-                    throw new Error(response?.error || 'Background script failed');
+            const response = await this.sendMessage({
+                type: 'SAVE_NOTE',
+                data: {
+                    content: noteText,
+                    context: enhancedContext
                 }
-            } catch (bgError) {
-                console.warn('Background save failed, trying direct API:', bgError.message);
+            });
+
+            if (response && response.success) {
+                this.showStatus('✅ Note saved!', false);
                 
-                // Fallback: Direct API call
-                return await this.saveNoteDirect(content, context);
+                // Resume video if YouTube
+                if (this.pageContext?.isYouTube) {
+                    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+                        if (tabs[0]) {
+                            chrome.tabs.sendMessage(tabs[0].id, { action: 'resumeVideo' });
+                        }
+                    });
+                }
+                
+                // Close panel after brief delay
+                setTimeout(() => {
+                    window.close();
+                }, 800);
+                
+                return true;
+            } else {
+                throw new Error(response?.error || 'Save failed');
             }
         } catch (error) {
             console.error('Error saving note:', error);
-            this.showStatus('Error saving note. Please try again.', 'error');
+            this.showStatus('❌ Failed to save note', false);
             return false;
         } finally {
-            this.updateSaveButton();
+            this.saveBtn.disabled = false;
+            this.clearBtn.disabled = false;
         }
     }
 
-    async saveNoteDirect(content, context) {
-        try {
-            // Get stored auth token
-            const stored = await chrome.storage.local.get(['accessToken']);
-            if (!stored.accessToken) {
-                throw new Error('No auth token available');
-            }
-            
-            // Prepare note data
-            const noteData = {
-                content: content,
-                url: context.url,
-                metadata: {
-                    title: context.title,
-                    url: context.url,
-                    domain: context.domain
-                }
-            };
-            
-            // Try different ports
-            const ports = [8000, 8080];
-            let response;
-            
-            for (const port of ports) {
-                try {
-                    const url = `http://localhost:${port}/notes`;
-                    console.log('Sidepanel: Trying direct API save to:', url);
-                    
-                    response = await fetch(url, {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `Bearer ${stored.accessToken}`,
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(noteData)
-                    });
-                    
-                    if (response.ok) {
-                        break; // Success, exit loop
-                    }
-                } catch (portError) {
-                    console.log(`Port ${port} failed:`, portError.message);
-                }
-            }
-            
-            if (!response || !response.ok) {
-                throw new Error('All API ports failed');
-            }
-            
-            const result = await response.json();
-            console.log('Sidepanel: Direct API save response:', result);
-            
-            this.showStatus('Note saved successfully!', 'success');
-            return true;
-            
-        } catch (error) {
-            console.error('Direct API save failed:', error);
-            this.showStatus(`Error saving note: ${error.message}`, 'error');
-            return false;
+    showStatus(text, showProgress) {
+        this.statusText.textContent = text;
+        this.statusSection.style.display = 'block';
+        
+        if (showProgress) {
+            this.progressBar.style.display = 'block';
+            // Animate progress bar
+            let width = 0;
+            const interval = setInterval(() => {
+                width += 10;
+                this.progressFill.style.width = width + '%';
+                if (width >= 90) clearInterval(interval);
+            }, 100);
+        } else {
+            this.progressBar.style.display = 'none';
         }
     }
 
@@ -275,14 +546,18 @@ Notes:
             return {
                 url: tab.url,
                 title: tab.title,
-                domain: new URL(tab.url).hostname
+                domain: new URL(tab.url).hostname,
+                timestamp: new Date().toISOString(),
+                type: tab.url.includes('youtube.com') ? 'youtube' : 'webpage'
             };
         } catch (error) {
             console.error('Error getting tab context:', error);
             return {
                 url: '',
                 title: '',
-                domain: ''
+                domain: '',
+                timestamp: new Date().toISOString(),
+                type: 'webpage'
             };
         }
     }
@@ -299,40 +574,20 @@ Notes:
         this.hideStatus();
     }
 
-    async loadPageInfo() {
-        try {
-            const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-            if (tab && tab.url && !tab.url.startsWith('chrome://')) {
-                const domain = new URL(tab.url).hostname;
-                this.pageDomain.textContent = domain;
-                this.pageTitle.textContent = tab.title || 'Untitled';
-                
-                // Store current context
-                this.currentContext = {
-                    url: tab.url,
-                    title: tab.title,
-                    domain: domain
-                };
-            } else {
-                this.pageDomain.textContent = 'Extension page';
-                this.pageTitle.textContent = 'Not available';
-                this.currentContext = null;
-            }
-        } catch (error) {
-            console.error('Error loading page info:', error);
-            this.pageDomain.textContent = 'Unknown';
-            this.pageTitle.textContent = 'Error loading page info';
-        }
+    hideStatus() {
+        this.statusSection.style.display = 'none';
     }
 
-    handleLoadNoteForEdit(data) {
-        // Handle message from popup to load a specific note for editing
-        if (data.noteId) {
-            // Focus the textarea and show a message
-            this.noteContent.focus();
-            this.showStatus('Loading note for editing...', 'loading');
-            // In a real implementation, you'd fetch the note by ID
+    handleClose() {
+        // Resume video if YouTube
+        if (this.pageContext?.isYouTube) {
+            chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+                if (tabs[0]) {
+                    chrome.tabs.sendMessage(tabs[0].id, { action: 'resumeVideo' });
+                }
+            });
         }
+        window.close();
     }
 
     async handleCaptureSelection() {
@@ -359,16 +614,60 @@ Notes:
                     this.updateSaveButton();
                     this.noteContent.focus();
                     
-                    this.showStatus('Selection captured!', 'success');
+                    this.showStatus('Selection captured!', false);
                 } else {
-                    this.showStatus('No text selected on the page', 'error');
+                    this.showStatus('No text selected on the page', false);
                 }
             } else {
-                this.showStatus('Cannot capture from this page', 'error');
+                this.showStatus('Cannot capture from this page', false);
             }
         } catch (error) {
             console.error('Error capturing selection:', error);
-            this.showStatus('Error capturing selection', 'error');
+            this.showStatus('Error capturing selection', false);
+        }
+    }
+
+    async openNotesPage() {
+        try {
+            const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+            if (tab && !tab.url.startsWith('chrome://')) {
+                // Send message to content script to show notes overlay
+                chrome.tabs.sendMessage(tab.id, { action: 'showNotesOverlay' });
+                // Close the sidepanel after triggering overlay
+                setTimeout(() => window.close(), 300);
+            } else {
+                this.showStatus('Cannot show overlay on this page', false);
+            }
+        } catch (error) {
+            console.error('Error opening notes overlay:', error);
+            this.showStatus('Error opening notes overlay', false);
+        }
+    }
+
+    async openCategoriesPage() {
+        try {
+            const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+            if (tab && !tab.url.startsWith('chrome://')) {
+                // Send message to content script to show categories overlay
+                chrome.tabs.sendMessage(tab.id, { action: 'showCategoriesOverlay' });
+                // Close the sidepanel after triggering overlay
+                setTimeout(() => window.close(), 300);
+            } else {
+                this.showStatus('Cannot show overlay on this page', false);
+            }
+        } catch (error) {
+            console.error('Error opening categories overlay:', error);
+            this.showStatus('Error opening categories overlay', false);
+        }
+    }
+
+    handleLoadNoteForEdit(data) {
+        // Handle message from popup to load a specific note for editing
+        if (data.noteId) {
+            // Focus the textarea and show a message
+            this.noteContent.focus();
+            this.showStatus('Loading note for editing...', false);
+            // In a real implementation, you'd fetch the note by ID
         }
     }
 
@@ -398,7 +697,7 @@ Notes:
     }
 
     handleKeyDown(e) {
-        // Enter key to save and close (like the reference behavior)
+        // Enter key to save and close
         if (e.key === 'Enter' && !e.shiftKey && !e.ctrlKey && !e.metaKey) {
             // Only if textarea is focused and not disabled
             if (document.activeElement === this.noteContent && !this.saveBtn.disabled) {
@@ -423,7 +722,7 @@ Notes:
         
         // Escape to close window
         if (e.key === 'Escape') {
-            window.close();
+            this.handleClose();
         }
     }
 
@@ -433,7 +732,7 @@ Notes:
             if (success) {
                 // Close the window after successful save
                 setTimeout(() => {
-                    window.close();
+                    this.handleClose();
                 }, 500); // Small delay to show success message
             }
         } catch (error) {
@@ -454,44 +753,37 @@ Notes:
         });
     }
 
-    showStatus(message, type) {
-        this.saveStatus.textContent = message;
-        this.saveStatus.className = `status-message ${type}`;
+    updateJsonContext() {
+        if (!this.currentContext) return;
         
-        if (type === 'success') {
-            setTimeout(() => this.hideStatus(), 3000);
+        // Create structured JSON context for categorization
+        const jsonContext = {
+            metadata: {
+                url: this.currentContext.url,
+                title: this.currentContext.title,
+                domain: this.currentContext.domain,
+                timestamp: this.currentContext.timestamp,
+                type: this.currentContext.type
+            },
+            content: {
+                summary: this.currentContext.summary || null
+            }
+        };
+        
+        // Add YouTube-specific context
+        if (this.currentContext.type === 'youtube' && this.currentContext.youtube) {
+            jsonContext.youtube = {
+                videoTitle: this.currentContext.youtube.videoTitle,
+                channelName: this.currentContext.youtube.channelName,
+                currentTime: this.currentContext.youtube.currentTime,
+                timeString: this.currentContext.youtube.timeString,
+                videoId: this.currentContext.youtube.videoId,
+                timestampedUrl: this.currentContext.youtube.timestampedUrl
+            };
         }
-    }
-
-    hideStatus() {
-        this.saveStatus.textContent = '';
-        this.saveStatus.className = 'status-message';
-    }
-
-    formatDate(timestamp) {
-        if (!timestamp) return '';
         
-        let date;
-        if (timestamp._seconds) {
-            date = new Date(timestamp._seconds * 1000);
-        } else if (typeof timestamp === 'string') {
-            date = new Date(timestamp);
-        } else {
-            date = new Date(timestamp);
-        }
-        
-        const now = new Date();
-        const diffMs = now - date;
-        const diffMinutes = Math.floor(diffMs / 60000);
-        const diffHours = Math.floor(diffMs / 3600000);
-        const diffDays = Math.floor(diffMs / 86400000);
-        
-        if (diffMinutes < 1) return 'Just now';
-        if (diffMinutes < 60) return `${diffMinutes}m ago`;
-        if (diffHours < 24) return `${diffHours}h ago`;
-        if (diffDays < 7) return `${diffDays}d ago`;
-        
-        return date.toLocaleDateString();
+        // Display formatted JSON
+        this.jsonContent.textContent = JSON.stringify(jsonContext, null, 2);
     }
 
     escapeHtml(text) {
@@ -501,7 +793,7 @@ Notes:
     }
 }
 
-// Initialize the side panel app when DOM is loaded
+// Initialize the floating panel app when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    window.sidePanelApp = new SidePanelApp();
+    window.floatingPanelApp = new FloatingPanelApp();
 });
