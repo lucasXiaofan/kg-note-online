@@ -25,6 +25,8 @@ class ExtensionPopup {
         // Action buttons
         this.openSidePanelBtn = document.getElementById('openSidePanelBtn');
         this.capturePageBtn = document.getElementById('capturePageBtn');
+        this.viewNotesBtn = document.getElementById('viewNotesBtn');
+        this.manageCategoriesBtn = document.getElementById('manageCategoriesBtn');
         this.openWebAppBtn = document.getElementById('openWebAppBtn');
         this.openSettingsBtn = document.getElementById('openSettingsBtn');
         this.refreshNotesBtn = document.getElementById('refreshNotesBtn');
@@ -42,6 +44,8 @@ class ExtensionPopup {
         // Action buttons
         this.openSidePanelBtn.addEventListener('click', () => this.openSidePanel());
         this.capturePageBtn.addEventListener('click', () => this.capturePage());
+        this.viewNotesBtn.addEventListener('click', () => this.openNotesPage());
+        this.manageCategoriesBtn.addEventListener('click', () => this.openCategoriesPage());
         this.openWebAppBtn.addEventListener('click', () => this.openWebApp());
         this.openSettingsBtn.addEventListener('click', () => this.openSettings());
         this.refreshNotesBtn.addEventListener('click', () => this.loadRecentNotes());
@@ -222,6 +226,18 @@ class ExtensionPopup {
             console.error('Error capturing page:', error);
             this.showStatus('Error capturing page', 'error');
         }
+    }
+
+    openNotesPage() {
+        // Open the notes management page
+        chrome.tabs.create({ url: chrome.runtime.getURL('notes/notes.html') });
+        window.close();
+    }
+
+    openCategoriesPage() {
+        // Open the notes page with categories section focused
+        chrome.tabs.create({ url: chrome.runtime.getURL('notes/notes.html#categories') });
+        window.close();
     }
 
     openWebApp() {

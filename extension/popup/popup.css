@@ -211,21 +211,21 @@ main {
 .action-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    gap: 8px;
 }
 
 .action-card {
     background: #f8f9fa;
     border: 1px solid #e9ecef;
     border-radius: 8px;
-    padding: 16px;
+    padding: 12px;
     cursor: pointer;
     transition: all 0.2s ease;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 8px;
+    gap: 6px;
 }
 
 .action-card:hover {
@@ -235,8 +235,8 @@ main {
 }
 
 .action-icon {
-    font-size: 24px;
-    margin-bottom: 4px;
+    font-size: 20px;
+    margin-bottom: 2px;
 }
 
 .action-text {

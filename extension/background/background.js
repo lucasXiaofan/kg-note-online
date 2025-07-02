@@ -16,7 +16,7 @@ class KnowledgeNotesBackground {
         // Set up event listeners
         chrome.runtime.onInstalled.addListener(() => this.handleInstall());
         chrome.commands.onCommand.addListener((command) => this.handleCommand(command));
-        chrome.action.onClicked.addListener(() => this.openSidePanel());
+        chrome.action.onClicked.addListener(() => this.showOverlay());
         chrome.contextMenus.onClicked.addListener((info, tab) => this.handleContextMenu(info, tab));
         chrome.runtime.onMessage.addListener((message, sender, sendResponse) => this.handleMessage(message, sender, sendResponse));
         
@@ -40,63 +40,103 @@ class KnowledgeNotesBackground {
             contexts: ['page']
         });
 
+        chrome.contextMenus.create({
+            id: 'view-all-notes',
+            title: 'View all notes',
+            contexts: ['page', 'action']
+        });
+
         // Try to authenticate if not already done
         await this.checkAuthStatus();
     }
 
     async handleCommand(command) {
         console.log('Command received:', command);
-        switch (command) {
-            case 'quick-note':
-                console.log('Executing quick-note command');
-                await this.captureQuickNote();
-                break;
-            case 'open-sidepanel':
-                console.log('Executing open-sidepanel command');
-                await this.openSidePanel();
-                break;
-            default:
-                console.log('Unknown command:', command);
+        try {
+            switch (command) {
+                case '_execute_action':
+                case 'quick-note':
+                    console.log('Executing quick-note command');
+                    await this.showOverlay();
+                    break;
+                case 'open-sidepanel':
+                    console.log('Executing open-sidepanel command');
+                    await this.showOverlay();
+                    break;
+                default:
+                    console.log('Unknown command:', command);
+            }
+        } catch (error) {
+            console.error('Error handling command:', command, error);
+            this.showNotification('Error with keyboard shortcut', 'error');
         }
     }
 
-    async openSidePanel() {
+    async showOverlay() {
         try {
-            // Get current tab context first
-            const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+            console.log('showOverlay called');
             
-            // Get page context
-            const context = {
-                url: tab.url,
-                title: tab.title,
-                domain: new URL(tab.url).hostname
-            };
-
-            // Store context for the floating window to use
-            await chrome.storage.session.set({ 
-                pendingNoteContext: context,
-                windowOpenedAt: Date.now()
-            });
-
-            // Create a floating window positioned on the right
-            // Get display info to position window correctly
-            const displays = await chrome.system.display.getInfo();
-            const primaryDisplay = displays.find(d => d.isPrimary) || displays[0];
-            const screenWidth = primaryDisplay.workArea.width;
+            // Try multiple query strategies
+            let tabs = await chrome.tabs.query({ active: true, currentWindow: true });
             
-            const window = await chrome.windows.create({
-                url: chrome.runtime.getURL('sidepanel/sidepanel.html'),
-                type: 'popup',
-                width: 420,
-                height: 500,
-                left: screenWidth - 470, // Position on the right side
-                top: 150,
-                focused: true
-            });
+            if (!tabs || tabs.length === 0) {
+                console.log('No active tab in current window, trying lastFocusedWindow');
+                tabs = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
+            }
             
-            console.log('Opened floating note window with context:', window.id, context);
+            if (!tabs || tabs.length === 0) {
+                console.log('Still no tabs, trying all active tabs');
+                tabs = await chrome.tabs.query({ active: true });
+            }
+            
+            if (!tabs || tabs.length === 0) {
+                console.error('No active tab found with any strategy');
+                this.showNotification('No active tab found. Please open a webpage first.', 'error');
+                return;
+            }
+            
+            const tab = tabs[0];
+            console.log('Found tab:', tab.id, tab.url, tab.title);
+            
+            // Check if it's a chrome:// or extension page that we can't inject into
+            if (tab.url.startsWith('chrome://') || tab.url.startsWith('chrome-extension://') || tab.url.startsWith('edge://') || tab.url.startsWith('moz-extension://')) {
+                console.log('Cannot inject into special page:', tab.url);
+                this.showNotification('Cannot open notes on this page. Please visit a regular website.', 'error');
+                return;
+            }
+            
+            console.log('Sending showOverlay message to tab:', tab.id);
+            
+            try {
+                const response = await chrome.tabs.sendMessage(tab.id, { action: 'showOverlay' });
+                console.log('Overlay message response:', response);
+            } catch (error) {
+                console.log('Content script not ready, injecting...', error.message);
+                
+                try {
+                    // Inject content script and try again
+                    await chrome.scripting.executeScript({
+                        target: { tabId: tab.id },
+                        files: ['content/content.js']
+                    });
+                    
+                    console.log('Content script injected, trying again...');
+                    
+                    // Wait a bit and try again
+                    setTimeout(async () => {
+                        try {
+                            const response = await chrome.tabs.sendMessage(tab.id, { action: 'showOverlay' });
+                            console.log('Second attempt response:', response);
+                        } catch (secondError) {
+                            console.error('Second attempt failed:', secondError);
+                        }
+                    }, 300);
+                } catch (injectError) {
+                    console.error('Failed to inject content script:', injectError);
+                }
+            }
         } catch (error) {
-            console.error('Error opening floating window:', error);
+            console.error('Error in showOverlay:', error);
         }
     }
 
@@ -116,6 +156,11 @@ class KnowledgeNotesBackground {
                 case 'save-page':
                     noteContent = `Page: ${tab.title}\n\n${info.selectionText || 'Saved from: ' + tab.url}`;
                     break;
+                case 'view-all-notes':
+                    chrome.tabs.create({
+                        url: chrome.runtime.getURL('notes/notes.html')
+                    });
+                    return;
             }
 
             if (noteContent) {
@@ -128,52 +173,19 @@ class KnowledgeNotesBackground {
         }
     }
 
-    async captureQuickNote() {
-        try {
-            // Get current tab info
-            const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-            
-            // Get page context
-            const context = {
-                url: tab.url,
-                title: tab.title,
-                domain: new URL(tab.url).hostname
-            };
 
-            // Get selected text if any
-            const results = await chrome.scripting.executeScript({
-                target: { tabId: tab.id },
-                function: () => window.getSelection().toString()
-            });
-            
-            const selectedText = results[0]?.result || '';
-            
-            // Send message to side panel to open with context
-            chrome.runtime.sendMessage({
-                type: 'QUICK_NOTE',
-                data: {
-                    content: selectedText,
-                    context: context
-                }
-            });
-
-            // Open floating window
-            await this.openSidePanel();
-            
-        } catch (error) {
-            console.error('Error capturing quick note:', error);
-        }
-    }
-
-    async handleMessage(message, sender, sendResponse) {
-        console.log('Background: Received message:', message.type);
+    handleMessage(message, sender, sendResponse) {
+        console.log('Background: Received message:', message.type || message.action);
+        console.log('Background: Full message:', message);
+        console.log('Background: Sender:', sender);
+        console.log('Background: Current time:', new Date().toISOString());
         
-        // Use async wrapper to properly handle promises
+        // Handle message asynchronously and ensure response is sent
         (async () => {
             try {
                 let result;
                 
-                switch (message.type) {
+                switch (message.type || message.action) {
                     case 'AUTHENTICATE':
                         console.log('Background: Handling AUTHENTICATE');
                         result = await this.authenticate();
@@ -188,8 +200,43 @@ class KnowledgeNotesBackground {
                         break;
                         
                     case 'SAVE_NOTE':
-                        console.log('Background: Handling SAVE_NOTE');
-                        result = await this.saveNote(message.data.content, message.data.context);
+                    case 'saveNote':
+                        console.log('Background: Handling SAVE_NOTE/saveNote');
+                        console.log('Background: Message data:', message.data);
+                        const noteData = message.data || message;
+                        const content = noteData.content;
+                        const context = noteData.context || noteData.metadata;
+                        console.log('Background: Saving note with content:', content);
+                        console.log('Background: Context:', context);
+                        
+                        try {
+                            result = await this.saveNote(content, context);
+                            console.log('Background: Save result:', result);
+                            
+                            // The saveNote method already returns the proper format
+                            // Just ensure we have the right properties
+                            if (result && result.success) {
+                                console.log('Background: Note save successful, preserving original result');
+                                // Keep the original result but ensure status is set
+                                if (!result.status) {
+                                    result.status = 'success';
+                                }
+                            } else {
+                                console.log('Background: Note save failed, standardizing error response');
+                                result = {
+                                    success: false,
+                                    status: 'error',
+                                    error: result ? result.error : 'Unknown error occurred'
+                                };
+                            }
+                        } catch (saveError) {
+                            console.error('Background: Save error:', saveError);
+                            result = {
+                                success: false,
+                                status: 'error',
+                                error: saveError.message
+                            };
+                        }
                         break;
                         
                     case 'GET_NOTES':
@@ -205,21 +252,37 @@ class KnowledgeNotesBackground {
                         
                     case 'OPEN_FLOATING_WINDOW':
                         console.log('Background: Opening floating window');
-                        await this.openSidePanel();
-                        result = { success: true };
+                        // Note: openSidePanel method not implemented yet
+                        console.log('Background: Floating window functionality not implemented');
+                        result = { success: false, error: 'Floating window not implemented' };
                         break;
                         
                     default:
-                        console.log('Background: Unknown message type:', message.type);
-                        result = { error: 'Unknown message type' };
+                        console.log('Background: Unknown message type:', message.type || message.action);
+                        result = { success: false, error: 'Unknown message type' };
                 }
                 
                 console.log('Background: Sending response:', result);
-                sendResponse(result);
+                console.log('Background: Response type:', typeof result);
+                console.log('Background: Response success:', result ? result.success : 'undefined');
+                console.log('Background: Response status:', result ? result.status : 'undefined');
+                
+                // Ensure sendResponse is called with proper error handling
+                try {
+                    sendResponse(result);
+                    console.log('Background: Response sent successfully');
+                } catch (responseError) {
+                    console.error('Background: Error sending response:', responseError);
+                }
                 
             } catch (error) {
                 console.error('Background: Error handling message:', error);
-                sendResponse({ success: false, error: error.message });
+                try {
+                    sendResponse({ success: false, error: error.message });
+                    console.log('Background: Error response sent successfully');
+                } catch (responseError) {
+                    console.error('Background: Error sending error response:', responseError);
+                }
             }
         })();
         
@@ -563,8 +626,14 @@ class KnowledgeNotesBackground {
     async saveNote(content, context) {
         try {
             if (!this.accessToken) {
-                throw new Error('Not authenticated');
+                console.warn('No access token, attempting to authenticate...');
+                const authResult = await this.authenticate();
+                if (!authResult.success) {
+                    throw new Error('Not authenticated and failed to authenticate');
+                }
             }
+
+            console.log('saveNote called with:', { content, context });
 
             const noteData = {
                 content: content,
@@ -573,9 +642,15 @@ class KnowledgeNotesBackground {
                     title: context.title,
                     url: context.url,
                     domain: context.domain,
+                    summary: context.summary,
+                    isYouTube: context.isYouTube,
+                    youtube: context.youtube,
+                    category: context.category,
                     selection: content !== context.title ? content : undefined
                 }
             };
+
+            console.log('Prepared noteData:', noteData);
 
             const response = await this.tryApiCall('/notes', {
                 method: 'POST',
@@ -593,7 +668,12 @@ class KnowledgeNotesBackground {
             const result = await response.json();
             console.log('Note saved:', result);
             
-            return { success: true, noteId: result.noteId };
+            return { 
+                success: true, 
+                status: 'success',
+                noteId: result.noteId || result.id,
+                result: result
+            };
             
         } catch (error) {
             console.error('Error saving note:', error);
@@ -725,4 +805,29 @@ class KnowledgeNotesBackground {
 }
 
 // Initialize the background service
-new KnowledgeNotesBackground();
+console.log('Starting Knowledge Notes Background Service...');
+console.log('Service Worker context:', typeof self !== 'undefined');
+console.log('Chrome APIs available:', {
+    runtime: !!chrome.runtime,
+    tabs: !!chrome.tabs,
+    storage: !!chrome.storage,
+    identity: !!chrome.identity
+});
+
+let backgroundInstance;
+try {
+    backgroundInstance = new KnowledgeNotesBackground();
+    console.log('Background service initialized successfully');
+    console.log('Message listener registered in constructor');
+    
+} catch (error) {
+    console.error('Failed to initialize background service:', error);
+    console.error('Error details:', error.stack);
+    
+    // Fallback message handler only if initialization failed
+    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+        console.error('Fallback message handler - service not initialized');
+        sendResponse({ success: false, error: 'Background service initialization failed' });
+        return true;
+    });
+}

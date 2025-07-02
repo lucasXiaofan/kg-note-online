@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Graph Notes - All Notes</title>
+    <link rel="stylesheet" href="notes.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <h1>📚 Knowledge Graph Notes</h1>
+                <div class="header-actions">
+                    <button id="refresh-btn" class="btn btn-secondary">🔄 Refresh</button>
+                    <button id="export-btn" class="btn btn-secondary">📤 Export</button>
+                    <button id="settings-btn" class="btn btn-secondary">⚙️ Settings</button>
+                </div>
+            </div>
+        </header>
+
+        <main class="main">
+            <div class="sidebar">
+                <div class="filters">
+                    <h3>🔍 Filters</h3>
+                    <div class="search-box">
+                        <input type="text" id="search-input" placeholder="Search notes...">
+                    </div>
+                    
+                    <div class="filter-group">
+                        <h4>📅 Date Range</h4>
+                        <select id="date-filter">
+                            <option value="all">All Time</option>
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                            <option value="custom">Custom Range</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <h4>🏷️ Categories</h4>
+                        <div id="category-filters">
+                            <!-- Categories will be populated here -->
+                        </div>
+                        <button id="manage-categories-btn" class="btn btn-text">Manage Categories</button>
+                    </div>
+
+                    <div class="filter-group">
+                        <h4>🌐 Source</h4>
+                        <div id="domain-filters">
+                            <!-- Domains will be populated here -->
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <h4>📝 Note Type</h4>
+                        <div class="filter-options">
+                            <label><input type="checkbox" id="filter-text" checked> Text Notes</label>
+                            <label><input type="checkbox" id="filter-youtube" checked> YouTube Notes</label>
+                            <label><input type="checkbox" id="filter-selections" checked> Text Selections</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content">
+                <div class="content-header">
+                    <div class="content-title">
+                        <h2 id="notes-count">Loading notes...</h2>
+                        <div class="view-controls">
+                            <button id="view-grid" class="view-btn active">📊 Grid</button>
+                            <button id="view-list" class="view-btn">📋 List</button>
+                            <button id="view-timeline" class="view-btn">📈 Timeline</button>
+                        </div>
+                    </div>
+                    <div class="sort-controls">
+                        <select id="sort-by">
+                            <option value="date-desc">Newest First</option>
+                            <option value="date-asc">Oldest First</option>
+                            <option value="title-asc">Title A-Z</option>
+                            <option value="title-desc">Title Z-A</option>
+                            <option value="domain-asc">Domain A-Z</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="notes-container" id="notes-container">
+                    <!-- Notes will be populated here -->
+                </div>
+
+                <div class="pagination" id="pagination" style="display: none;">
+                    <button id="prev-page" class="btn btn-secondary">← Previous</button>
+                    <span id="page-info">Page 1 of 1</span>
+                    <button id="next-page" class="btn btn-secondary">Next →</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Note Detail Modal -->
+    <div id="note-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Note Details</h3>
+                <button id="close-modal" class="close-btn">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="note-meta">
+                    <div class="meta-item">
+                        <strong>URL:</strong> 
+                        <a id="note-url" target="_blank" rel="noopener noreferrer"></a>
+                    </div>
+                    <div class="meta-item">
+                        <strong>Date:</strong> 
+                        <span id="note-date"></span>
+                    </div>
+                    <div class="meta-item">
+                        <strong>Category:</strong> 
+                        <span id="note-category">Uncategorized</span>
+                    </div>
+                </div>
+                <div class="note-content">
+                    <h4>Content:</h4>
+                    <div id="note-full-content"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="edit-note" class="btn btn-primary">✏️ Edit</button>
+                <button id="delete-note" class="btn btn-danger">🗑️ Delete</button>
+                <button id="categorize-note" class="btn btn-secondary">🏷️ Categorize</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Category Management Modal -->
+    <div id="category-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>🏷️ Manage Categories</h3>
+                <button id="close-category-modal" class="close-btn">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="category-form">
+                    <h4>Add New Category</h4>
+                    <div class="form-group">
+                        <label for="category-name">Name:</label>
+                        <input type="text" id="category-name" placeholder="Category name">
+                    </div>
+                    <div class="form-group">
+                        <label for="category-definition">Definition:</label>
+                        <textarea id="category-definition" placeholder="What this category represents..." rows="3"></textarea>
+                    </div>
+                    <button id="add-category" class="btn btn-primary">Add Category</button>
+                </div>
+                
+                <div class="existing-categories">
+                    <h4>Existing Categories</h4>
+                    <div id="category-list">
+                        <!-- Categories will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="loading" class="loading">
+        <div class="spinner"></div>
+        <p>Loading notes...</p>
+    </div>
+
+    <script src="notes.js"></script>
+</body>
+</html>
