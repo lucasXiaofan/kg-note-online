@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Graph Notes</title>
+    <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>📝 Quick Note</h1>
+                <div class="header-actions">
+                    <button id="openPopupBtn" class="btn-icon" title="Open main popup">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div id="authPrompt" class="auth-prompt" style="display: none;">
+                <p>Please sign in through the main popup to save notes</p>
+            </div>
+        </header>
+
+        <!-- Quick Note Section -->
+        <section class="quick-note-section">
+            <div class="note-form">
+                <textarea 
+                    id="noteContent" 
+                    placeholder="Page title and URL will be pre-filled. Add your notes below and press Enter to save."
+                    rows="8"
+                ></textarea>
+                
+                <div class="note-context" id="noteContext" style="display: none;">
+                    <div class="context-info">
+                        <span id="contextDomain" class="context-domain"></span>
+                        <span id="contextTitle" class="context-title"></span>
+                    </div>
+                </div>
+                
+                <div class="note-actions">
+                    <button id="saveBtn" class="btn-primary" disabled>Save Note</button>
+                    <button id="clearBtn" class="btn-secondary">Clear</button>
+                </div>
+                
+                <div id="saveStatus" class="status-message"></div>
+            </div>
+        </section>
+
+        <!-- Current Page Info -->
+        <section class="page-info-section">
+            <div class="page-info" id="pageInfo">
+                <div class="page-domain" id="pageDomain">Current page</div>
+                <div class="page-title" id="pageTitle">Loading...</div>
+            </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="quick-actions">
+            <div class="action-buttons">
+                <button id="captureSelectionBtn" class="action-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M9 9H5v6h4V9zm6 0h-4v6h4V9zm6-2h-2V3c0-1.1-.9-2-2-2H7c-1.1 0-2 .9-2 2v4H3c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h2v2c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2v-2h2c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zM7 5h10v10H7V5z"/>
+                    </svg>
+                    Get Selection
+                </button>
+                
+                <button id="openMainBtn" class="action-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/>
+                    </svg>
+                    View All Notes
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <script src="sidepanel.js"></script>
+</body>
+</html>

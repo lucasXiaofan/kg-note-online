@@ -1,0 +1,111 @@
+{
+  "nodes": [
+    {
+      "id": "98b788f054276d86",
+      "type": "text",
+      "text": "# core problem to solve\n1. capture thoughts with context (url, youtube, video, paper, etc)\n\t1. usually need switch between taps, copy paste text or screen shot\n2. utilize the captured thoughts\n\t1. we may captured many thoughts, but never used them",
+      "styleAttributes": {},
+      "x": -280,
+      "y": -220,
+      "width": 580,
+      "height": 320
+    },
+    {
+      "id": "e6124109dfa2cd9d",
+      "type": "text",
+      "text": "## front end\n1. capture notes with context. ex. chrome extension\n2. visalize the notes and update categorization rules",
+      "styleAttributes": {},
+      "x": -460,
+      "y": 460,
+      "width": 320,
+      "height": 260
+    },
+    {
+      "id": "38fa842a90fa025e",
+      "type": "text",
+      "text": "## database\n1. store the notes\n2. context\n3. relationships\n4. user accounts",
+      "styleAttributes": {},
+      "x": 300,
+      "y": 460,
+      "width": 340,
+      "height": 240
+    },
+    {
+      "id": "e90006c13392eec0",
+      "type": "text",
+      "text": "## API backend\n1. LLM do categorization\n2. do retrieve\n3. do categorization merge",
+      "styleAttributes": {},
+      "x": -80,
+      "y": 760,
+      "width": 350,
+      "height": 220
+    },
+    {
+      "id": "af0219b8584ca3bf",
+      "type": "text",
+      "text": "## usage\nusing the relevant but fragmented captures into high quality and longterm collections of knowledge representation \n1. making video\n2. making presentation \n3. build new project",
+      "styleAttributes": {},
+      "x": -120,
+      "y": 1120,
+      "width": 430,
+      "height": 300
+    },
+    {
+      "id": "e016948022a1fff6",
+      "type": "text",
+      "text": "# solution\n1. context aware notetaking\n\t1. google chrome extension, get the current url, summary, video with time url\n2. build LLM workflow backend to \n\t1. categorize the notes\n\t\t1. vectorized\n\t2. summarize the context\n\t3. key is to make each capture easy to retrieve, enable semantic, contextual retrieve",
+      "styleAttributes": {},
+      "x": -1320,
+      "y": 460,
+      "width": 620,
+      "height": 390
+    }
+  ],
+  "edges": [
+    {
+      "id": "55b1294b741896ea",
+      "styleAttributes": {},
+      "fromNode": "38fa842a90fa025e",
+      "fromSide": "left",
+      "toNode": "e6124109dfa2cd9d",
+      "toSide": "right",
+      "label": "view existing docs"
+    },
+    {
+      "id": "43bcba31ea5d222a",
+      "styleAttributes": {},
+      "fromNode": "e6124109dfa2cd9d",
+      "fromSide": "bottom",
+      "toNode": "e90006c13392eec0",
+      "toSide": "left",
+      "label": "categorize new code"
+    },
+    {
+      "id": "b173d539038e77b2",
+      "styleAttributes": {},
+      "fromNode": "e90006c13392eec0",
+      "fromSide": "right",
+      "toNode": "38fa842a90fa025e",
+      "toSide": "bottom",
+      "label": "update database, query database"
+    },
+    {
+      "id": "24e6b71f5ee6092d",
+      "styleAttributes": {},
+      "fromNode": "af0219b8584ca3bf",
+      "fromSide": "top",
+      "toNode": "e90006c13392eec0",
+      "toSide": "bottom"
+    },
+    {
+      "id": "f557ff3495c38b30",
+      "styleAttributes": {},
+      "fromNode": "e90006c13392eec0",
+      "fromSide": "bottom",
+      "toNode": "af0219b8584ca3bf",
+      "toSide": "top",
+      "label": "send current topics or doc get relevant captures"
+    }
+  ],
+  "metadata": {}
+}

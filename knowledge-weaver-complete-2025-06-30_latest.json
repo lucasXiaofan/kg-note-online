@@ -1,0 +1,1082 @@
+{
+  "metadata": {
+    "exportDate": "2025-06-30T18:00:00.411Z",
+    "version": "2.0.0",
+    "totalNotes": 19,
+    "totalCategories": 0,
+    "source": "Knowledge Weaver Chrome Extension"
+  },
+  "categories": [],
+  "notes": [
+    {
+      "id": "note-1751160402733",
+      "content": "after knowing their paying, the enginnering itner is 200$, I was stunished, I know the cluely solve a more urgent problem than the problem I am trying to solve, it empower people with LLM like passing job application, interview, while I am focus make make people take notes without doing the notes management, note's value are not straight foward to reveal, but for me, just doing the speculative decoding, the taking notes help me keep in track don't need do redundant things, and mess around with notes like excalidraw also help me understand problem visually and better solve them, but still I cannot ignore the true demanding, maybe the demending now is learn things fast, and effective,  so app like recall maybe helpful? like doing quiz, but I don't want to learn thing by just memorizing it, I need do something deeper, like making innovation through connections, so the definition of connection is important",
+      "timestamp": 1751160409427,
+      "categories": [
+        "Career Development",
+        "Learning Strategies",
+        "Productivity Tools"
+      ],
+      "metadata": {
+        "title": "Careers | Cluely",
+        "url": "https://cluely.com/careers",
+        "domain": "cluely.com",
+        "summary": "Everything You Need. Before You Ask."
+      },
+      "context": {
+        "pageTitle": "Careers | Cluely",
+        "sourceUrl": "https://cluely.com/careers",
+        "websiteDomain": "cluely.com",
+        "captureDate": "2025-06-29T01:26:49.427Z",
+        "contentLength": 915,
+        "wordCount": 154
+      }
+    },
+    {
+      "id": "note-1751160552903",
+      "content": "I think it is still benefitial to learn to code the vq vae, because many field, like audio and images are using the vq vae alot",
+      "timestamp": 1751160559112,
+      "categories": [
+        "Learning Strategies",
+        "Machine Learning"
+      ],
+      "metadata": {
+        "title": "(4) Vector Quantized Variational AutoEncoder (VQVAE) From Scratch - YouTube",
+        "url": "https://www.youtube.com/watch?v=1mi2MSvigcc",
+        "domain": "www.youtube.com",
+        "summary": "Code: https://github.com/priyammaz/PyTorch-Adventures/blob/main/PyTorch%20for%20Generation/AutoEncoders/Intro%20to%20AutoEncoders/Vector_Quantized_Variationa..."
+      },
+      "context": {
+        "pageTitle": "(4) Vector Quantized Variational AutoEncoder (VQVAE) From Scratch - YouTube",
+        "sourceUrl": "https://www.youtube.com/watch?v=1mi2MSvigcc",
+        "websiteDomain": "www.youtube.com",
+        "captureDate": "2025-06-29T01:29:19.112Z",
+        "contentLength": 127,
+        "wordCount": 26
+      }
+    },
+    {
+      "id": "note-1751160723799",
+      "content": "I should think about connect the kg-note with online database like mangodb, because I just lost some of my previous few day notes because I store everything on chrome locally, it will lost evenually, I need save it somewhere save",
+      "timestamp": 1751160729720,
+      "categories": [
+        "Productivity Tools"
+      ],
+      "metadata": {
+        "title": "Project Overview | Cloud: MongoDB Cloud",
+        "url": "https://cloud.mongodb.com/v2/67a39640dcceb0767f9b2a97#/overview",
+        "domain": "cloud.mongodb.com",
+        "summary": ""
+      },
+      "context": {
+        "pageTitle": "Project Overview | Cloud: MongoDB Cloud",
+        "sourceUrl": "https://cloud.mongodb.com/v2/67a39640dcceb0767f9b2a97#/overview",
+        "websiteDomain": "cloud.mongodb.com",
+        "captureDate": "2025-06-29T01:32:09.720Z",
+        "contentLength": 229,
+        "wordCount": 40
+      }
+    },
+    {
+      "id": "note-1751161484196",
+      "content": "test the functionality",
+      "timestamp": 1751161488202,
+      "categories": [
+        "Productivity Tools"
+      ],
+      "metadata": {
+        "title": "(4) Vector Quantized Variational AutoEncoder (VQVAE) From Scratch - YouTube",
+        "url": "https://www.youtube.com/watch?v=1mi2MSvigcc",
+        "domain": "www.youtube.com",
+        "summary": "Code: https://github.com/priyammaz/PyTorch-Adventures/blob/main/PyTorch%20for%20Generation/AutoEncoders/Intro%20to%20AutoEncoders/Vector_Quantized_Variationa..."
+      },
+      "context": {
+        "pageTitle": "(4) Vector Quantized Variational AutoEncoder (VQVAE) From Scratch - YouTube",
+        "sourceUrl": "https://www.youtube.com/watch?v=1mi2MSvigcc",
+        "websiteDomain": "www.youtube.com",
+        "captureDate": "2025-06-29T01:44:48.202Z",
+        "contentLength": 22,
+        "wordCount": 3
+      }
+    },
+    {
+      "id": "note-1751161684298",
+      "content": "test",
+      "timestamp": 1751161686634,
+      "categories": [
+        "Learning Strategies"
+      ],
+      "metadata": {
+        "title": "(4) Vector Quantized Variational AutoEncoder (VQVAE) From Scratch - YouTube",
+        "url": "https://www.youtube.com/watch?v=1mi2MSvigcc&t=1283s",
+        "domain": "www.youtube.com",
+        "summary": "Code: https://github.com/priyammaz/PyTorch-Adventures/blob/main/PyTorch%20for%20Generation/AutoEncoders/Intro%20to%20AutoEncoders/Vector_Quantized_Variationa..."
+      },
+      "context": {
+        "pageTitle": "(4) Vector Quantized Variational AutoEncoder (VQVAE) From Scratch - YouTube",
+        "sourceUrl": "https://www.youtube.com/watch?v=1mi2MSvigcc&t=1283s",
+        "websiteDomain": "www.youtube.com",
+        "captureDate": "2025-06-29T01:48:06.634Z",
+        "contentLength": 4,
+        "wordCount": 1
+      }
+    },
+    {
+      "id": "note-1751167646840",
+      "content": "ok this janus 4o is very interesting, I should learn it, cause previous janus I think the image generation quality is low ,but this one learn from the gpt4o images",
+      "timestamp": 1751167649187,
+      "categories": [
+        "Machine Learning",
+        "Learning Strategies"
+      ],
+      "metadata": {
+        "title": "(4) New AI makes any video game, AI decodes DNA, robot soccer, 3D model animator, new AI music generator - YouTube",
+        "url": "https://www.youtube.com/watch?v=qoSXF6FjqT4",
+        "domain": "www.youtube.com",
+        "summary": "INSANE AI NEWS: Hunyuan GameCraft, AlphaGenome, SongBloom, Gemini CLI, Animate Any Mesh, LongWriter-Zero & more #ai #ainews #aitools #agi #aivideo Thanks to ..."
+      },
+      "context": {
+        "pageTitle": "(4) New AI makes any video game, AI decodes DNA, robot soccer, 3D model animator, new AI music generator - YouTube",
+        "sourceUrl": "https://www.youtube.com/watch?v=qoSXF6FjqT4",
+        "websiteDomain": "www.youtube.com",
+        "captureDate": "2025-06-29T03:27:29.187Z",
+        "contentLength": 163,
+        "wordCount": 30
+      }
+    },
+    {
+      "id": "note-1751170341862",
+      "content": "this guy mention the google cloud maybe harder to use in comparison with other cloud platform, but google cloud has free credit for starter project, I want to build my API so bad, so why not try it",
+      "timestamp": 1751170349075,
+      "categories": [
+        "Productivity Tools"
+      ],
+      "metadata": {
+        "title": "(5) How to Host a Website on Google Cloud (for absolute beginners) - YouTube",
+        "url": "https://www.youtube.com/watch?v=4GW49flO-Hg",
+        "domain": "www.youtube.com",
+        "summary": "INSANE AI NEWS: Hunyuan GameCraft, AlphaGenome, SongBloom, Gemini CLI, Animate Any Mesh, LongWriter-Zero & more #ai #ainews #aitools #agi #aivideo Thanks to ..."
+      },
+      "context": {
+        "pageTitle": "(5) How to Host a Website on Google Cloud (for absolute beginners) - YouTube",
+        "sourceUrl": "https://www.youtube.com/watch?v=4GW49flO-Hg",
+        "websiteDomain": "www.youtube.com",
+        "captureDate": "2025-06-29T04:12:29.075Z",
+        "contentLength": 197,
+        "wordCount": 38
+      }
+    },
+    {
+      "id": "note-1751225110078",
+      "content": "I understand that the minus 2 for j is because j is index, and half is two length of nums we need offset the 1 from each nums (length of list start from 1)",
+      "timestamp": 1751225112437,
+      "categories": [
+        "Learning Strategies"
+      ],
+      "metadata": {
+        "title": "Median of Two Sorted Arrays - NeetCode",
+        "url": "https://neetcode.io/problems/median-of-two-sorted-arrays?list=neetcode150",
+        "domain": "neetcode.io",
+        "summary": "Leetcode 4. Median of Two Sorted Arrays\n\nYou are given two integer arrays `nums1` and `nums2` of size `m` and `n` respectively, where each is sorted in ascending order. Return the [median](https://en.wikipedia.org/wiki/Median) value among all elements of the two arrays.\n\nYour solution must run in $O(log (m+n))$ time.\n\n**Example 1:**\n\n```java\nInput: nums1 = [1,2], nums2 = [3]\n\nOutput: 2.0\n```\n\nExplanation: Among `[1, 2, 3]` the median is 2.\n\n**Example 2:**\n\n```java\nInput: nums1 = [1,3], nums2 = [2,4]\n\nOutput: 2.5\n```\n\nExplanation: Among `[1, 2, 3, 4]` the median is (2 + 3) / 2 = 2.5.\n\n**Constraints:**\n* `nums1.length == m`\n* `nums2.length == n`\n* `0 <= m <= 1000`\n* `0 <= n <= 1000`\n* `-10^6 <= nums1[i], nums2[i] <= 10^6`\n\n<br>\n<br>\n<details class=\"hint-accordion\">  \n    <summary>Recommended Time & Space Complexity</summary>\n    <p>\n    You should aim for a solution with <code>O(log(min(n, m)))</code> time and <code>O(1)</code> space, where <code>n</code> is the size of <code>nums1</code> and <code>m</code> is the size of <code>nums2</code>.\n    </p>\n</details>\n\n<br>\n<details class=\"hint-accordion\">  \n    <summary>Hint 1</summary>\n    <p>\n    A brute force solution would be to create a new array by merging elements from both arrays, then sorting it and returning the median. This would be an <code>O(n + m)</code> solution. Can you think of a better way? Maybe you can use the criteria of both the arrays being sorted in ascending order.\n    </p>\n</details>\n\n<br>\n<details class=\"hint-accordion\">  \n    <summary>Hint 2</summary>\n    <p>\n    Suppose we merged both arrays. Then, we would have <code>half = (m + n) / 2</code> elements to the left of the median. So, without merging, is there any way to use this information to find the median? You can leverage the fact that the arrays are sorted. Consider the smaller array between the two and use binary search to find the correct partition between the two arrays, which will allow you to directly find the median without fully merging the arrays. How will you implement this?\n    </p>\n</details>\n\n<br>\n<details class=\"hint-accordion\">  \n    <summary>Hint 3</summary>\n    <p>\n    We will always try to keep array <code>A</code> smaller and interchange it with array <code>B</code> if <code>len(A) > len(B)</code>. Now, we perform binary search on the number of elements we will choose from array <code>A</code>. It is straightforward that when we choose <code>x</code> elements from array <code>A</code>, we have to choose <code>half - x</code> elements from array <code>B</code>. But we should also ensure that this partition is valid. How can we do this?\n    </p>\n</details>\n\n<br>\n<details class=\"hint-accordion\">  \n    <summary>Hint 4</summary>\n    <p> \n    When we do a partition for both arrays, we should ensure that the maximum elements from the left partitions of both arrays are smaller than or equal to the minimum elements of the right partitions of both the arrays. This will ensure that the partition is valid, and we can then find the median. We can find the min or max of these partitions in <code>O(1)</code> as these partitions are sorted in ascending order. Why does this work?\n    </p>\n</details>\n\n<br>\n<details class=\"hint-accordion\">  \n    <summary>Hint 5</summary>\n    <p>\n    For example, consider the arrays <code>A = [1, 2, 3, 4, 5]</code> and <code>B = [1, 2, 3, 4, 5, 6, 7, 8]</code>. When we select <code>x = 2</code>, we take <code>4</code> elements from array <code>B</code>. However, this partition is not valid because value <code>4</code> from the left partition of array <code>B</code> is greater than the value <code>3</code> from the right partition of array <code>A</code>. So, we should try to take more elements from array <code>A</code> to make the partition valid. Binary search will eventually help us find a valid partition.\n    </p>\n</details>"
+      },
+      "context": {
+        "pageTitle": "Median of Two Sorted Arrays - NeetCode",
+        "sourceUrl": "https://neetcode.io/problems/median-of-two-sorted-arrays?list=neetcode150",
+        "websiteDomain": "neetcode.io",
+        "captureDate": "2025-06-29T19:25:12.437Z",
+        "contentLength": 155,
+        "wordCount": 34
+      }
+    },
+    {
+      "id": "note-1751225298214",
+      "content": "I cannot do total = len(nums1)-1 + len(nums2)-1 and j just half - i, because idk, may be I can substract 2 from total, just need another function",
+      "timestamp": 1751225300565,
+      "categories": [
+        "Algorithm Understanding"
+      ],
+      "metadata": {
+        "title": "Median of Two Sorted Arrays - NeetCode",
+        "url": "https://neetcode.io/problems/median-of-two-sorted-arrays?list=neetcode150",
+        "domain": "neetcode.io",
+        "summary": "Leetcode 4. Median of Two Sorted Arrays\n\nYou are given two integer arrays `nums1` and `nums2` of size `m` and `n` respectively, where each is sorted in ascending order. Return the [median](https://en.wikipedia.org/wiki/Median) value among all elements of the two arrays.\n\nYour solution must run in $O(log (m+n))$ time.\n\n**Example 1:**\n\n```java\nInput: nums1 = [1,2], nums2 = [3]\n\nOutput: 2.0\n```\n\nExplanation: Among `[1, 2, 3]` the median is 2.\n\n**Example 2:**\n\n```java\nInput: nums1 = [1,3], nums2 = [2,4]\n\nOutput: 2.5\n```\n\nExplanation: Among `[1, 2, 3, 4]` the median is (2 + 3) / 2 = 2.5.\n\n**Constraints:**\n* `nums1.length == m`\n* `nums2.length == n`\n* `0 <= m <= 1000`\n* `0 <= n <= 1000`\n* `-10^6 <= nums1[i], nums2[i] <= 10^6`\n\n<br>\n<br>\n<details class=\"hint-accordion\">  \n    <summary>Recommended Time & Space Complexity</summary>\n    <p>\n    You should aim for a solution with <code>O(log(min(n, m)))</code> time and <code>O(1)</code> space, where <code>n</code> is the size of <code>nums1</code> and <code>m</code> is the size of <code>nums2</code>.\n    </p>\n</details>\n\n<br>\n<details class=\"hint-accordion\">  \n    <summary>Hint 1</summary>\n    <p>\n    A brute force solution would be to create a new array by merging elements from both arrays, then sorting it and returning the median. This would be an <code>O(n + m)</code> solution. Can you think of a better way? Maybe you can use the criteria of both the arrays being sorted in ascending order.\n    </p>\n</details>\n\n<br>\n<details class=\"hint-accordion\">  \n    <summary>Hint 2</summary>\n    <p>\n    Suppose we merged both arrays. Then, we would have <code>half = (m + n) / 2</code> elements to the left of the median. So, without merging, is there any way to use this information to find the median? You can leverage the fact that the arrays are sorted. Consider the smaller array between the two and use binary search to find the correct partition between the two arrays, which will allow you to directly find the median without fully merging the arrays. How will you implement this?\n    </p>\n</details>\n\n<br>\n<details class=\"hint-accordion\">  \n    <summary>Hint 3</summary>\n    <p>\n    We will always try to keep array <code>A</code> smaller and interchange it with array <code>B</code> if <code>len(A) > len(B)</code>. Now, we perform binary search on the number of elements we will choose from array <code>A</code>. It is straightforward that when we choose <code>x</code> elements from array <code>A</code>, we have to choose <code>half - x</code> elements from array <code>B</code>. But we should also ensure that this partition is valid. How can we do this?\n    </p>\n</details>\n\n<br>\n<details class=\"hint-accordion\">  \n    <summary>Hint 4</summary>\n    <p> \n    When we do a partition for both arrays, we should ensure that the maximum elements from the left partitions of both arrays are smaller than or equal to the minimum elements of the right partitions of both the arrays. This will ensure that the partition is valid, and we can then find the median. We can find the min or max of these partitions in <code>O(1)</code> as these partitions are sorted in ascending order. Why does this work?\n    </p>\n</details>\n\n<br>\n<details class=\"hint-accordion\">  \n    <summary>Hint 5</summary>\n    <p>\n    For example, consider the arrays <code>A = [1, 2, 3, 4, 5]</code> and <code>B = [1, 2, 3, 4, 5, 6, 7, 8]</code>. When we select <code>x = 2</code>, we take <code>4</code> elements from array <code>B</code>. However, this partition is not valid because value <code>4</code> from the left partition of array <code>B</code> is greater than the value <code>3</code> from the right partition of array <code>A</code>. So, we should try to take more elements from array <code>A</code> to make the partition valid. Binary search will eventually help us find a valid partition.\n    </p>\n</details>"
+      },
+      "context": {
+        "pageTitle": "Median of Two Sorted Arrays - NeetCode",
+        "sourceUrl": "https://neetcode.io/problems/median-of-two-sorted-arrays?list=neetcode150",
+        "websiteDomain": "neetcode.io",
+        "captureDate": "2025-06-29T19:28:20.565Z",
+        "contentLength": 145,
+        "wordCount": 28
+      }
+    },
+    {
+      "id": "note-1751227228217",
+      "content": "yeah the final derivation prove that negative log likelihood and cross-entropy is the same",
+      "timestamp": 1751227230584,
+      "categories": [
+        "Machine Learning",
+        "Algorithm Understanding"
+      ],
+      "metadata": {
+        "title": "(6) What is the difference between negative log likelihood and cross entropy? (in neural networks) - YouTube",
+        "url": "https://www.youtube.com/watch?v=ziq967YrSsc",
+        "domain": "www.youtube.com",
+        "summary": "Enjoy the videos and music you love, upload original content, and share it all with friends, family, and the world on YouTube."
+      },
+      "context": {
+        "pageTitle": "(6) What is the difference between negative log likelihood and cross entropy? (in neural networks) - YouTube",
+        "sourceUrl": "https://www.youtube.com/watch?v=ziq967YrSsc",
+        "websiteDomain": "www.youtube.com",
+        "captureDate": "2025-06-29T20:00:30.584Z",
+        "contentLength": 90,
+        "wordCount": 14
+      }
+    },
+    {
+      "id": "note-1751227467319",
+      "content": "wow this two leg shaped lego walker is really cool!, I want to build similar stuff",
+      "timestamp": 1751227475125,
+      "categories": [
+        "Learning Strategies"
+      ],
+      "metadata": {
+        "title": "(6) 5 Lego walkers vs 7 obstacles #shorts - YouTube",
+        "url": "https://www.youtube.com/shorts/RbeZS_hITsg",
+        "domain": "www.youtube.com",
+        "summary": "5 Lego Walkers vs 7 Obstaclesfull version:5 Lego Walkers vs 7 Obstacleshttps://youtu.be/O7BrA6mvvPk"
+      },
+      "context": {
+        "pageTitle": "(6) 5 Lego walkers vs 7 obstacles #shorts - YouTube",
+        "sourceUrl": "https://www.youtube.com/shorts/RbeZS_hITsg",
+        "websiteDomain": "www.youtube.com",
+        "captureDate": "2025-06-29T20:04:35.125Z",
+        "contentLength": 82,
+        "wordCount": 16
+      }
+    },
+    {
+      "id": "note-1751242260011",
+      "content": "真不知道哪里出错了，感觉代码和solution一模一样但是就是出错",
+      "timestamp": 1751242260320,
+      "categories": [
+        "Algorithm Understanding",
+        "Problem Solving Techniques"
+      ],
+      "metadata": {
+        "title": "Median of Two Sorted Arrays - NeetCode",
+        "url": "https://neetcode.io/problems/median-of-two-sorted-arrays?list=neetcode150",
+        "domain": "neetcode.io",
+        "summary": "Leetcode 4. Median of Two Sorted Arrays\n\nYou are given two integer arrays `nums1` and `nums2` of size `m` and `n` respectively, where each is sorted in ascending order. Return the [median](https://en.wikipedia.org/wiki/Median) value among all elements of the two arrays.\n\nYour solution must run in $O(log (m+n))$ time.\n\n**Example 1:**\n\n```java\nInput: nums1 = [1,2], nums2 = [3]\n\nOutput: 2.0\n```\n\nExplanation: Among `[1, 2, 3]` the median is 2.\n\n**Example 2:**\n\n```java\nInput: nums1 = [1,3], nums2 = [2,4]\n\nOutput: 2.5\n```\n\nExplanation: Among `[1, 2, 3, 4]` the median is (2 + 3) / 2 = 2.5.\n\n**Constraints:**\n* `nums1.length == m`\n* `nums2.length == n`\n* `0 <= m <= 1000`\n* `0 <= n <= 1000`\n* `-10^6 <= nums1[i], nums2[i] <= 10^6`\n\n<br>\n<br>\n<details class=\"hint-accordion\">  \n    <summary>Recommended Time & Space Complexity</summary>\n    <p>\n    You should aim for a solution with <code>O(log(min(n, m)))</code> time and <code>O(1)</code> space, where <code>n</code> is the size of <code>nums1</code> and <code>m</code> is the size of <code>nums2</code>.\n    </p>\n</details>\n\n<br>\n<details class=\"hint-accordion\">  \n    <summary>Hint 1</summary>\n    <p>\n    A brute force solution would be to create a new array by merging elements from both arrays, then sorting it and returning the median. This would be an <code>O(n + m)</code> solution. Can you think of a better way? Maybe you can use the criteria of both the arrays being sorted in ascending order.\n    </p>\n</details>\n\n<br>\n<details class=\"hint-accordion\">  \n    <summary>Hint 2</summary>\n    <p>\n    Suppose we merged both arrays. Then, we would have <code>half = (m + n) / 2</code> elements to the left of the median. So, without merging, is there any way to use this information to find the median? You can leverage the fact that the arrays are sorted. Consider the smaller array between the two and use binary search to find the correct partition between the two arrays, which will allow you to directly find the median without fully merging the arrays. How will you implement this?\n    </p>\n</details>\n\n<br>\n<details class=\"hint-accordion\">  \n    <summary>Hint 3</summary>\n    <p>\n    We will always try to keep array <code>A</code> smaller and interchange it with array <code>B</code> if <code>len(A) > len(B)</code>. Now, we perform binary search on the number of elements we will choose from array <code>A</code>. It is straightforward that when we choose <code>x</code> elements from array <code>A</code>, we have to choose <code>half - x</code> elements from array <code>B</code>. But we should also ensure that this partition is valid. How can we do this?\n    </p>\n</details>\n\n<br>\n<details class=\"hint-accordion\">  \n    <summary>Hint 4</summary>\n    <p> \n    When we do a partition for both arrays, we should ensure that the maximum elements from the left partitions of both arrays are smaller than or equal to the minimum elements of the right partitions of both the arrays. This will ensure that the partition is valid, and we can then find the median. We can find the min or max of these partitions in <code>O(1)</code> as these partitions are sorted in ascending order. Why does this work?\n    </p>\n</details>\n\n<br>\n<details class=\"hint-accordion\">  \n    <summary>Hint 5</summary>\n    <p>\n    For example, consider the arrays <code>A = [1, 2, 3, 4, 5]</code> and <code>B = [1, 2, 3, 4, 5, 6, 7, 8]</code>. When we select <code>x = 2</code>, we take <code>4</code> elements from array <code>B</code>. However, this partition is not valid because value <code>4</code> from the left partition of array <code>B</code> is greater than the value <code>3</code> from the right partition of array <code>A</code>. So, we should try to take more elements from array <code>A</code> to make the partition valid. Binary search will eventually help us find a valid partition.\n    </p>\n</details>"
+      },
+      "context": {
+        "pageTitle": "Median of Two Sorted Arrays - NeetCode",
+        "sourceUrl": "https://neetcode.io/problems/median-of-two-sorted-arrays?list=neetcode150",
+        "websiteDomain": "neetcode.io",
+        "captureDate": "2025-06-30T00:11:00.320Z",
+        "contentLength": 33,
+        "wordCount": 1
+      }
+    },
+    {
+      "id": "note-1751242584646",
+      "content": "int((l+r)), the l+r prevent negative number",
+      "timestamp": 1751242584650,
+      "categories": [
+        "Algorithm Understanding",
+        "Problem Solving Techniques"
+      ],
+      "metadata": {
+        "title": "Median of Two Sorted Arrays - NeetCode",
+        "url": "https://neetcode.io/problems/median-of-two-sorted-arrays?list=neetcode150",
+        "domain": "neetcode.io",
+        "summary": "Leetcode 4. Median of Two Sorted Arrays\n\nYou are given two integer arrays `nums1` and `nums2` of size `m` and `n` respectively, where each is sorted in ascending order. Return the [median](https://en.wikipedia.org/wiki/Median) value among all elements of the two arrays.\n\nYour solution must run in $O(log (m+n))$ time.\n\n**Example 1:**\n\n```java\nInput: nums1 = [1,2], nums2 = [3]\n\nOutput: 2.0\n```\n\nExplanation: Among `[1, 2, 3]` the median is 2.\n\n**Example 2:**\n\n```java\nInput: nums1 = [1,3], nums2 = [2,4]\n\nOutput: 2.5\n```\n\nExplanation: Among `[1, 2, 3, 4]` the median is (2 + 3) / 2 = 2.5.\n\n**Constraints:**\n* `nums1.length == m`\n* `nums2.length == n`\n* `0 <= m <= 1000`\n* `0 <= n <= 1000`\n* `-10^6 <= nums1[i], nums2[i] <= 10^6`\n\n<br>\n<br>\n<details class=\"hint-accordion\">  \n    <summary>Recommended Time & Space Complexity</summary>\n    <p>\n    You should aim for a solution with <code>O(log(min(n, m)))</code> time and <code>O(1)</code> space, where <code>n</code> is the size of <code>nums1</code> and <code>m</code> is the size of <code>nums2</code>.\n    </p>\n</details>\n\n<br>\n<details class=\"hint-accordion\">  \n    <summary>Hint 1</summary>\n    <p>\n    A brute force solution would be to create a new array by merging elements from both arrays, then sorting it and returning the median. This would be an <code>O(n + m)</code> solution. Can you think of a better way? Maybe you can use the criteria of both the arrays being sorted in ascending order.\n    </p>\n</details>\n\n<br>\n<details class=\"hint-accordion\">  \n    <summary>Hint 2</summary>\n    <p>\n    Suppose we merged both arrays. Then, we would have <code>half = (m + n) / 2</code> elements to the left of the median. So, without merging, is there any way to use this information to find the median? You can leverage the fact that the arrays are sorted. Consider the smaller array between the two and use binary search to find the correct partition between the two arrays, which will allow you to directly find the median without fully merging the arrays. How will you implement this?\n    </p>\n</details>\n\n<br>\n<details class=\"hint-accordion\">  \n    <summary>Hint 3</summary>\n    <p>\n    We will always try to keep array <code>A</code> smaller and interchange it with array <code>B</code> if <code>len(A) > len(B)</code>. Now, we perform binary search on the number of elements we will choose from array <code>A</code>. It is straightforward that when we choose <code>x</code> elements from array <code>A</code>, we have to choose <code>half - x</code> elements from array <code>B</code>. But we should also ensure that this partition is valid. How can we do this?\n    </p>\n</details>\n\n<br>\n<details class=\"hint-accordion\">  \n    <summary>Hint 4</summary>\n    <p> \n    When we do a partition for both arrays, we should ensure that the maximum elements from the left partitions of both arrays are smaller than or equal to the minimum elements of the right partitions of both the arrays. This will ensure that the partition is valid, and we can then find the median. We can find the min or max of these partitions in <code>O(1)</code> as these partitions are sorted in ascending order. Why does this work?\n    </p>\n</details>\n\n<br>\n<details class=\"hint-accordion\">  \n    <summary>Hint 5</summary>\n    <p>\n    For example, consider the arrays <code>A = [1, 2, 3, 4, 5]</code> and <code>B = [1, 2, 3, 4, 5, 6, 7, 8]</code>. When we select <code>x = 2</code>, we take <code>4</code> elements from array <code>B</code>. However, this partition is not valid because value <code>4</code> from the left partition of array <code>B</code> is greater than the value <code>3</code> from the right partition of array <code>A</code>. So, we should try to take more elements from array <code>A</code> to make the partition valid. Binary search will eventually help us find a valid partition.\n    </p>\n</details>"
+      },
+      "context": {
+        "pageTitle": "Median of Two Sorted Arrays - NeetCode",
+        "sourceUrl": "https://neetcode.io/problems/median-of-two-sorted-arrays?list=neetcode150",
+        "websiteDomain": "neetcode.io",
+        "captureDate": "2025-06-30T00:16:24.650Z",
+        "contentLength": 43,
+        "wordCount": 6
+      }
+    },
+    {
+      "id": "note-1751258100408",
+      "content": "I finally set up the firebase connection, through the help of this video, lol the key is to create service in google cloud, and using the firebase_admin sdk and using the correct database name",
+      "timestamp": 1751258102776,
+      "categories": [
+        "General"
+      ],
+      "metadata": {
+        "title": "(7) Cloud Firestore and Python tutorial #1: Setup Cloud Firestore with Python [for beginners] - YouTube",
+        "url": "https://www.youtube.com/watch?v=UVzBQ0LkO28",
+        "domain": "www.youtube.com",
+        "summary": "Cloud Firestore + Python tutorial for COMPLETE beginners: How do we connect Firestore with Python? How to create a Cloud Firestore database? What is the Fire..."
+      },
+      "context": {
+        "pageTitle": "(7) Cloud Firestore and Python tutorial #1: Setup Cloud Firestore with Python [for beginners] - YouTube",
+        "sourceUrl": "https://www.youtube.com/watch?v=UVzBQ0LkO28",
+        "websiteDomain": "www.youtube.com",
+        "captureDate": "2025-06-30T04:35:02.776Z",
+        "contentLength": 192,
+        "wordCount": 34
+      }
+    },
+    {
+      "id": "note-1751258795028",
+      "content": "bug report for arvix the control shift u is not working, and today the purpose of reading this paper is to find the loss for autoregressive model image generation, and to see if it is different than flow matching",
+      "timestamp": 1751258797387,
+      "categories": [
+        "General"
+      ],
+      "metadata": {
+        "title": "",
+        "url": "https://arxiv.org/pdf/2406.06525",
+        "domain": "arxiv.org",
+        "summary": ""
+      },
+      "context": {
+        "pageTitle": "",
+        "sourceUrl": "https://arxiv.org/pdf/2406.06525",
+        "websiteDomain": "arxiv.org",
+        "captureDate": "2025-06-30T04:46:37.387Z",
+        "contentLength": 212,
+        "wordCount": 39
+      }
+    },
+    {
+      "id": "note-1751302622728",
+      "content": "this length of longest substring is hard for me because I don't know how to update the slide window after encounter the duplicate character,",
+      "timestamp": 1751302625071,
+      "categories": [
+        "General"
+      ],
+      "metadata": {
+        "title": "Longest Substring Without Repeating Characters - NeetCode",
+        "url": "https://neetcode.io/problems/longest-substring-without-duplicates?list=neetcode150",
+        "domain": "neetcode.io",
+        "summary": "Leetcode 3. Longest Substring Without Repeating Characters\n\nGiven a string `s`, find the *length of the longest substring* without duplicate characters.\n\nA **substring** is a contiguous sequence of characters within a string.\n\n**Example 1:**\n\n```java\nInput: s = \"zxyzxyz\"\n\nOutput: 3\n```\n\nExplanation: The string \"xyz\" is the longest without duplicate characters.\n\n**Example 2:**\n\n```java\nInput: s = \"xxxx\"\n\nOutput: 1\n```\n\n**Constraints:**\n* `0 <= s.length <= 1000`\n* `s` may consist of printable ASCII characters.\n\n<br>\n<br>\n<details class=\"hint-accordion\">  \n    <summary>Recommended Time & Space Complexity</summary>\n    <p>\n    You should aim for a solution with <code>O(n)</code> time and <code>O(m)</code> space, where <code>n</code> is the length of the string and <code>m</code> is the number of unique characters in the string.\n    </p>\n</details>\n\n<br>\n<details class=\"hint-accordion\">  \n    <summary>Hint 1</summary>\n    <p>\n    A brute force solution would be to try the substring starting at index <code>i</code> and try to find the maximum length we can form without duplicates by starting at that index. we can use a hash set to detect duplicates in <code>O(1)</code> time. Can you think of a better way?\n    </p>\n</details>\n\n<br>\n<details class=\"hint-accordion\">  \n    <summary>Hint 2</summary>\n    <p>\n    We can use the sliding window algorithm. Since we only care about substrings without duplicate characters, the sliding window can help us maintain valid substring with its dynamic nature.\n    </p>\n</details>\n\n<br>\n<details class=\"hint-accordion\">  \n    <summary>Hint 3</summary>\n    <p>\n    We can iterate through the given string with index <code>r</code> as the right boundary and <code>l</code> as the left boundary of the window. We use a hash set to check if the character is present in the window or not. When we encounter a character at index <code>r</code> that is already present in the window, we shrink the window by incrementing the <code>l</code> pointer until the window no longer contains any duplicates. Also, we remove characters from the hash set that are excluded from the window as the <code>l</code> pointer moves. At each iteration, we update the result with the length of the current window, <code>r - l + 1</code>, if this length is greater than the current result.\n    </p>\n</details>"
+      },
+      "context": {
+        "pageTitle": "Longest Substring Without Repeating Characters - NeetCode",
+        "sourceUrl": "https://neetcode.io/problems/longest-substring-without-duplicates?list=neetcode150",
+        "websiteDomain": "neetcode.io",
+        "captureDate": "2025-06-30T16:57:05.071Z",
+        "contentLength": 140,
+        "wordCount": 24
+      }
+    },
+    {
+      "id": "note-1751302805125",
+      "content": "I see I am thinking too much, as long as each time we maintain the slide window without duplication, there won't bee issue like encounter a duplicate we need multiple update, only one update is needed each time\n\nbut what about this case: \n\nabcb? we should remove the initial a and b",
+      "timestamp": 1751302807459,
+      "categories": [
+        "General"
+      ],
+      "metadata": {
+        "title": "Longest Substring Without Repeating Characters - NeetCode",
+        "url": "https://neetcode.io/problems/longest-substring-without-duplicates?list=neetcode150",
+        "domain": "neetcode.io",
+        "summary": "Leetcode 3. Longest Substring Without Repeating Characters\n\nGiven a string `s`, find the *length of the longest substring* without duplicate characters.\n\nA **substring** is a contiguous sequence of characters within a string.\n\n**Example 1:**\n\n```java\nInput: s = \"zxyzxyz\"\n\nOutput: 3\n```\n\nExplanation: The string \"xyz\" is the longest without duplicate characters.\n\n**Example 2:**\n\n```java\nInput: s = \"xxxx\"\n\nOutput: 1\n```\n\n**Constraints:**\n* `0 <= s.length <= 1000`\n* `s` may consist of printable ASCII characters.\n\n<br>\n<br>\n<details class=\"hint-accordion\">  \n    <summary>Recommended Time & Space Complexity</summary>\n    <p>\n    You should aim for a solution with <code>O(n)</code> time and <code>O(m)</code> space, where <code>n</code> is the length of the string and <code>m</code> is the number of unique characters in the string.\n    </p>\n</details>\n\n<br>\n<details class=\"hint-accordion\">  \n    <summary>Hint 1</summary>\n    <p>\n    A brute force solution would be to try the substring starting at index <code>i</code> and try to find the maximum length we can form without duplicates by starting at that index. we can use a hash set to detect duplicates in <code>O(1)</code> time. Can you think of a better way?\n    </p>\n</details>\n\n<br>\n<details class=\"hint-accordion\">  \n    <summary>Hint 2</summary>\n    <p>\n    We can use the sliding window algorithm. Since we only care about substrings without duplicate characters, the sliding window can help us maintain valid substring with its dynamic nature.\n    </p>\n</details>\n\n<br>\n<details class=\"hint-accordion\">  \n    <summary>Hint 3</summary>\n    <p>\n    We can iterate through the given string with index <code>r</code> as the right boundary and <code>l</code> as the left boundary of the window. We use a hash set to check if the character is present in the window or not. When we encounter a character at index <code>r</code> that is already present in the window, we shrink the window by incrementing the <code>l</code> pointer until the window no longer contains any duplicates. Also, we remove characters from the hash set that are excluded from the window as the <code>l</code> pointer moves. At each iteration, we update the result with the length of the current window, <code>r - l + 1</code>, if this length is greater than the current result.\n    </p>\n</details>"
+      },
+      "context": {
+        "pageTitle": "Longest Substring Without Repeating Characters - NeetCode",
+        "sourceUrl": "https://neetcode.io/problems/longest-substring-without-duplicates?list=neetcode150",
+        "websiteDomain": "neetcode.io",
+        "captureDate": "2025-06-30T17:00:07.459Z",
+        "contentLength": 282,
+        "wordCount": 52
+      }
+    },
+    {
+      "id": "note-1751303764689",
+      "content": "while s[r]!= s[l]:\n                    ds.remove(s[l])\n                    l+=1\n                l +=1\nthe key is move the l to its previous duplicate character, remove encountered character and move the l one right to the duplicate",
+      "timestamp": 1751303767056,
+      "categories": [
+        "General"
+      ],
+      "metadata": {
+        "title": "Longest Substring Without Repeating Characters - NeetCode",
+        "url": "https://neetcode.io/problems/longest-substring-without-duplicates?list=neetcode150",
+        "domain": "neetcode.io",
+        "summary": "Leetcode 3. Longest Substring Without Repeating Characters\n\nGiven a string `s`, find the *length of the longest substring* without duplicate characters.\n\nA **substring** is a contiguous sequence of characters within a string.\n\n**Example 1:**\n\n```java\nInput: s = \"zxyzxyz\"\n\nOutput: 3\n```\n\nExplanation: The string \"xyz\" is the longest without duplicate characters.\n\n**Example 2:**\n\n```java\nInput: s = \"xxxx\"\n\nOutput: 1\n```\n\n**Constraints:**\n* `0 <= s.length <= 1000`\n* `s` may consist of printable ASCII characters.\n\n<br>\n<br>\n<details class=\"hint-accordion\">  \n    <summary>Recommended Time & Space Complexity</summary>\n    <p>\n    You should aim for a solution with <code>O(n)</code> time and <code>O(m)</code> space, where <code>n</code> is the length of the string and <code>m</code> is the number of unique characters in the string.\n    </p>\n</details>\n\n<br>\n<details class=\"hint-accordion\">  \n    <summary>Hint 1</summary>\n    <p>\n    A brute force solution would be to try the substring starting at index <code>i</code> and try to find the maximum length we can form without duplicates by starting at that index. we can use a hash set to detect duplicates in <code>O(1)</code> time. Can you think of a better way?\n    </p>\n</details>\n\n<br>\n<details class=\"hint-accordion\">  \n    <summary>Hint 2</summary>\n    <p>\n    We can use the sliding window algorithm. Since we only care about substrings without duplicate characters, the sliding window can help us maintain valid substring with its dynamic nature.\n    </p>\n</details>\n\n<br>\n<details class=\"hint-accordion\">  \n    <summary>Hint 3</summary>\n    <p>\n    We can iterate through the given string with index <code>r</code> as the right boundary and <code>l</code> as the left boundary of the window. We use a hash set to check if the character is present in the window or not. When we encounter a character at index <code>r</code> that is already present in the window, we shrink the window by incrementing the <code>l</code> pointer until the window no longer contains any duplicates. Also, we remove characters from the hash set that are excluded from the window as the <code>l</code> pointer moves. At each iteration, we update the result with the length of the current window, <code>r - l + 1</code>, if this length is greater than the current result.\n    </p>\n</details>"
+      },
+      "context": {
+        "pageTitle": "Longest Substring Without Repeating Characters - NeetCode",
+        "sourceUrl": "https://neetcode.io/problems/longest-substring-without-duplicates?list=neetcode150",
+        "websiteDomain": "neetcode.io",
+        "captureDate": "2025-06-30T17:16:07.056Z",
+        "contentLength": 231,
+        "wordCount": 30
+      }
+    },
+    {
+      "id": "note-1751305791685",
+      "content": "the benefit of using no sql is although it is less convinent to update the data, but for application that has much more read than write, no sql is good, because the reading function is easier than sql",
+      "timestamp": 1751305794039,
+      "categories": [
+        "General"
+      ],
+      "metadata": {
+        "title": "(9) What is a NoSQL Database? How is Cloud Firestore structured? | Get to know Cloud Firestore #1 - YouTube",
+        "url": "https://www.youtube.com/watch?v=v_hR4K4auoQ&list=PLl-K7zZEsYLluG5MCVEzXAQ7ACZBCuZgZ",
+        "domain": "www.youtube.com",
+        "summary": "Cloud Firestore is a horizontally scaling document-model NoSQL database in the cloud. But what does that actually mean? Welcome to our new series, Get to Kno..."
+      },
+      "context": {
+        "pageTitle": "(9) What is a NoSQL Database? How is Cloud Firestore structured? | Get to know Cloud Firestore #1 - YouTube",
+        "sourceUrl": "https://www.youtube.com/watch?v=v_hR4K4auoQ&list=PLl-K7zZEsYLluG5MCVEzXAQ7ACZBCuZgZ",
+        "websiteDomain": "www.youtube.com",
+        "captureDate": "2025-06-30T17:49:54.039Z",
+        "contentLength": 200,
+        "wordCount": 38
+      }
+    }
+  ],
+  "knowledgeGraph": {
+    "domains": [
+      "cluely.com",
+      "www.youtube.com",
+      "cloud.mongodb.com",
+      "neetcode.io",
+      "arxiv.org"
+    ],
+    "urls": [
+      "https://cluely.com/careers",
+      "https://www.youtube.com/watch?v=1mi2MSvigcc",
+      "https://cloud.mongodb.com/v2/67a39640dcceb0767f9b2a97#/overview",
+      "https://www.youtube.com/watch?v=1mi2MSvigcc&t=1283s",
+      "https://www.youtube.com/watch?v=qoSXF6FjqT4",
+      "https://www.youtube.com/watch?v=4GW49flO-Hg",
+      "https://neetcode.io/problems/median-of-two-sorted-arrays?list=neetcode150",
+      "https://www.youtube.com/watch?v=ziq967YrSsc",
+      "https://www.youtube.com/shorts/RbeZS_hITsg",
+      "https://www.youtube.com/watch?v=UVzBQ0LkO28",
+      "https://arxiv.org/pdf/2406.06525",
+      "https://neetcode.io/problems/longest-substring-without-duplicates?list=neetcode150",
+      "https://www.youtube.com/watch?v=v_hR4K4auoQ&list=PLl-K7zZEsYLluG5MCVEzXAQ7ACZBCuZgZ"
+    ],
+    "categoryUsage": [],
+    "relationships": [
+      {
+        "from": "note-1751160552903",
+        "to": "note-1751161484196",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751160552903",
+        "to": "note-1751161684298",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751160552903",
+        "to": "note-1751167646840",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751160552903",
+        "to": "note-1751170341862",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751160552903",
+        "to": "note-1751227228217",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751160552903",
+        "to": "note-1751227467319",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751160552903",
+        "to": "note-1751258100408",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751160552903",
+        "to": "note-1751305791685",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751161484196",
+        "to": "note-1751161684298",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751161484196",
+        "to": "note-1751167646840",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751161484196",
+        "to": "note-1751170341862",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751161484196",
+        "to": "note-1751227228217",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751161484196",
+        "to": "note-1751227467319",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751161484196",
+        "to": "note-1751258100408",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751161484196",
+        "to": "note-1751305791685",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751161684298",
+        "to": "note-1751167646840",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751161684298",
+        "to": "note-1751170341862",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751161684298",
+        "to": "note-1751227228217",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751161684298",
+        "to": "note-1751227467319",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751161684298",
+        "to": "note-1751258100408",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751161684298",
+        "to": "note-1751305791685",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751167646840",
+        "to": "note-1751170341862",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751167646840",
+        "to": "note-1751227228217",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751167646840",
+        "to": "note-1751227467319",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751167646840",
+        "to": "note-1751258100408",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751167646840",
+        "to": "note-1751305791685",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751170341862",
+        "to": "note-1751227228217",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751170341862",
+        "to": "note-1751227467319",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751170341862",
+        "to": "note-1751258100408",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751170341862",
+        "to": "note-1751305791685",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751227228217",
+        "to": "note-1751227467319",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751227228217",
+        "to": "note-1751258100408",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751227228217",
+        "to": "note-1751305791685",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751227467319",
+        "to": "note-1751258100408",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751227467319",
+        "to": "note-1751305791685",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751258100408",
+        "to": "note-1751305791685",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751225110078",
+        "to": "note-1751225298214",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751225110078",
+        "to": "note-1751242260011",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751225110078",
+        "to": "note-1751242584646",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751225110078",
+        "to": "note-1751302622728",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751225110078",
+        "to": "note-1751302805125",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751225110078",
+        "to": "note-1751303764689",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751225298214",
+        "to": "note-1751242260011",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751225298214",
+        "to": "note-1751242584646",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751225298214",
+        "to": "note-1751302622728",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751225298214",
+        "to": "note-1751302805125",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751225298214",
+        "to": "note-1751303764689",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751242260011",
+        "to": "note-1751242584646",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751242260011",
+        "to": "note-1751302622728",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751242260011",
+        "to": "note-1751302805125",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751242260011",
+        "to": "note-1751303764689",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751242584646",
+        "to": "note-1751302622728",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751242584646",
+        "to": "note-1751302805125",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751242584646",
+        "to": "note-1751303764689",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751302622728",
+        "to": "note-1751302805125",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751302622728",
+        "to": "note-1751303764689",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751302805125",
+        "to": "note-1751303764689",
+        "type": "same_domain",
+        "strength": 0.7
+      },
+      {
+        "from": "note-1751160402733",
+        "to": "note-1751160552903",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751160402733",
+        "to": "note-1751161684298",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751160402733",
+        "to": "note-1751167646840",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751160402733",
+        "to": "note-1751225110078",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751160402733",
+        "to": "note-1751227467319",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751160552903",
+        "to": "note-1751161684298",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751160552903",
+        "to": "note-1751167646840",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751160552903",
+        "to": "note-1751225110078",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751160552903",
+        "to": "note-1751227467319",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751161684298",
+        "to": "note-1751167646840",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751161684298",
+        "to": "note-1751225110078",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751161684298",
+        "to": "note-1751227467319",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751167646840",
+        "to": "note-1751225110078",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751167646840",
+        "to": "note-1751227467319",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751225110078",
+        "to": "note-1751227467319",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751160402733",
+        "to": "note-1751160723799",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751160402733",
+        "to": "note-1751161484196",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751160402733",
+        "to": "note-1751170341862",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751160723799",
+        "to": "note-1751161484196",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751160723799",
+        "to": "note-1751170341862",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751161484196",
+        "to": "note-1751170341862",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751160552903",
+        "to": "note-1751167646840",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751160552903",
+        "to": "note-1751227228217",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751167646840",
+        "to": "note-1751227228217",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751225298214",
+        "to": "note-1751227228217",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751225298214",
+        "to": "note-1751242260011",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751225298214",
+        "to": "note-1751242584646",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751227228217",
+        "to": "note-1751242260011",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751227228217",
+        "to": "note-1751242584646",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751242260011",
+        "to": "note-1751242584646",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751242260011",
+        "to": "note-1751242584646",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751258100408",
+        "to": "note-1751258795028",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751258100408",
+        "to": "note-1751302622728",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751258100408",
+        "to": "note-1751302805125",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751258100408",
+        "to": "note-1751303764689",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751258100408",
+        "to": "note-1751305791685",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751258795028",
+        "to": "note-1751302622728",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751258795028",
+        "to": "note-1751302805125",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751258795028",
+        "to": "note-1751303764689",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751258795028",
+        "to": "note-1751305791685",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751302622728",
+        "to": "note-1751302805125",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751302622728",
+        "to": "note-1751303764689",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751302622728",
+        "to": "note-1751305791685",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751302805125",
+        "to": "note-1751303764689",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751302805125",
+        "to": "note-1751305791685",
+        "type": "same_category",
+        "strength": 0.8
+      },
+      {
+        "from": "note-1751303764689",
+        "to": "note-1751305791685",
+        "type": "same_category",
+        "strength": 0.8
+      }
+    ]
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "manifest_version": 3,
+  "name": "Knowledge Graph Notes",
+  "version": "1.0.0",
+  "description": "Context-aware note taking with intelligent categorization",
+  
+  "permissions": [
+    "identity",
+    "identity.email",
+    "storage",
+    "activeTab",
+    "contextMenus",
+    "scripting"
+  ],
+  
+  "host_permissions": [
+    "http://localhost:8000/*",
+    "http://localhost:8080/*",
+    "https://your-production-domain.com/*",
+    "https://www.googleapis.com/*"
+  ],
+  
+  "oauth2": {
+    "client_id": "185618387669-f0gkkbnkc5o7oiemvcsrrr490djepbrh.apps.googleusercontent.com",
+    "scopes": ["email", "profile", "openid"]
+  },
+  
+  "background": {
+    "service_worker": "background/background.js"
+  },
+  
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content/content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  
+  
+  "commands": {
+    "quick-note": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Y",
+        "mac": "Command+Shift+Y"
+      },
+      "description": "Quick note capture"
+    },
+    "open-sidepanel": {
+      "suggested_key": {
+        "default": "Alt+Shift+K",
+        "mac": "Alt+Shift+K"
+      },
+      "description": "Open Knowledge Notes floating window"
+    }
+  },
+  
+  "action": {
+    "default_title": "Knowledge Graph Notes",
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "assets/icons/icon16.png",
+      "32": "assets/icons/icon32.png",
+      "48": "assets/icons/icon48.png",
+      "128": "assets/icons/icon128.png"
+    }
+  },
+  
+  "options_page": "test-auth.html",
+  
+  "icons": {
+    "16": "assets/icons/icon16.png",
+    "32": "assets/icons/icon32.png",
+    "48": "assets/icons/icon48.png",
+    "128": "assets/icons/icon128.png"
+  },
+  
+  "web_accessible_resources": [
+    {
+      "resources": ["assets/*"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

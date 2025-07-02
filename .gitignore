@@ -1,0 +1,72 @@
+# Credentials and sensitive files
+credentials.json
+credential.json
+*.credentials.json
+service-account-key.json
+firebase-adminsdk-*.json
+*.pem
+*.key
+*.p12
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# API keys and secrets
+secrets.json
+config.json
+auth.json
+
+# Google OAuth
+client_secret*.json
+kg-note-credential.json
+
+# AWS credentials
+.aws/
+
+# Node modules
+node_modules/
+
+# Logs
+*.log
+logs/
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# Build outputs
+dist/
+build/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Temporary files
+*.tmp
+*.temp

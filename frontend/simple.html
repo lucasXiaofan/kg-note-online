@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Graph Notes - Simple Version</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .user-status {
+            font-size: 14px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        
+        .user-status.loading {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .user-status.success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .user-status.error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .error {
+            color: #dc3545;
+            font-style: italic;
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📝 Knowledge Graph Notes</h1>
+            <p>Context-aware note taking with intelligent categorization</p>
+            <!-- User info will be added here by JavaScript -->
+        </header>
+
+        <main>
+            <!-- Note Creation Section -->
+            <section class="note-creator">
+                <h2>Create Note</h2>
+                <div class="input-group">
+                    <textarea 
+                        id="noteContent" 
+                        placeholder="Enter your note content here..."
+                        rows="4"
+                    ></textarea>
+                </div>
+                
+                <div class="input-group">
+                    <input 
+                        type="url" 
+                        id="noteUrl" 
+                        placeholder="URL (optional - for context)"
+                    >
+                </div>
+
+                <div class="input-group">
+                    <input 
+                        type="text" 
+                        id="noteTitle" 
+                        placeholder="Page title (optional)"
+                    >
+                </div>
+
+                <button id="saveNote" class="btn-primary">Save Note</button>
+                <div id="saveStatus" class="status-message"></div>
+            </section>
+
+            <!-- Notes Display Section -->
+            <section class="notes-display">
+                <h2>Your Notes</h2>
+                <div class="filters">
+                    <input 
+                        type="text" 
+                        id="searchNotes" 
+                        placeholder="Search notes..."
+                    >
+                    <select id="categoryFilter">
+                        <option value="">All Categories</option>
+                    </select>
+                </div>
+                <div id="notesList" class="notes-list">
+                    <div class="loading">Loading notes...</div>
+                </div>
+            </section>
+
+            <!-- Categories Section -->
+            <section class="categories-display">
+                <h2>Categories</h2>
+                <div id="categoriesList" class="categories-list">
+                    <div class="loading">Loading categories...</div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Simplified Application Script -->
+    <script src="js/simple-app.js"></script>
+</body>
+</html>

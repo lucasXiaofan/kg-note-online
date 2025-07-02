@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Graph Notes - With Authentication</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .user-details {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .user-email {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .auth-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        
+        .auth-buttons > div,
+        .auth-buttons > button {
+            width: 100%;
+        }
+        
+        #googleSignInButton {
+            display: flex;
+            justify-content: center;
+        }
+        
+        .error {
+            color: #dc3545;
+            font-style: italic;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .user-info {
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .user-info {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📝 Knowledge Graph Notes</h1>
+            <p>Context-aware note taking with intelligent categorization</p>
+            <!-- Auth section and user info will be added here by JavaScript -->
+        </header>
+
+        <main>
+            <!-- Note Creation Section -->
+            <section class="note-creator">
+                <h2>Create Note</h2>
+                <div class="input-group">
+                    <textarea 
+                        id="noteContent" 
+                        placeholder="Enter your note content here..."
+                        rows="4"
+                    ></textarea>
+                </div>
+                
+                <div class="input-group">
+                    <input 
+                        type="url" 
+                        id="noteUrl" 
+                        placeholder="URL (optional - for context)"
+                    >
+                </div>
+
+                <div class="input-group">
+                    <input 
+                        type="text" 
+                        id="noteTitle" 
+                        placeholder="Page title (optional)"
+                    >
+                </div>
+
+                <button id="saveNote" class="btn-primary">Save Note</button>
+                <div id="saveStatus" class="status-message"></div>
+            </section>
+
+            <!-- Notes Display Section -->
+            <section class="notes-display">
+                <h2>Your Notes</h2>
+                <div class="filters">
+                    <input 
+                        type="text" 
+                        id="searchNotes" 
+                        placeholder="Search notes..."
+                    >
+                    <select id="categoryFilter">
+                        <option value="">All Categories</option>
+                    </select>
+                </div>
+                <div id="notesList" class="notes-list">
+                    <div class="loading">Please sign in to view your notes...</div>
+                </div>
+            </section>
+
+            <!-- Categories Section -->
+            <section class="categories-display">
+                <h2>Categories</h2>
+                <div id="categoriesList" class="categories-list">
+                    <div class="loading">Please sign in to view categories...</div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Enhanced Application Script with Authentication -->
+    <script src="js/auth-app.js"></script>
+</body>
+</html>

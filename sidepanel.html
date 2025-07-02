@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Knowledge Weaver - Side Panel</title>
+  <link rel="stylesheet" type="text/css" href="../../../dist/output.css">
+  <style>
+    body {
+      min-height: 100vh;
+      background: rgba(17, 24, 39, var(--panel-opacity, 0.95));
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+    
+    .floating-panel {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 400px;
+      max-height: calc(100vh - 40px);
+      background: rgba(31, 41, 55, var(--panel-opacity, 0.95));
+      border: 1px solid rgba(75, 85, 99, 0.5);
+      border-radius: 12px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      z-index: 10000;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+    
+    .drag-handle {
+      cursor: move;
+      background: linear-gradient(90deg, rgba(59, 130, 246, 0.5), rgba(147, 51, 234, 0.5));
+    }
+  </style>
+</head>
+<body class="text-gray-100">
+  <div id="floating-panel" class="floating-panel">
+    <!-- Drag Handle -->
+    <div id="drag-handle" class="drag-handle p-2 flex items-center justify-between">
+      <div class="flex items-center space-x-2">
+        <div class="w-2 h-2 bg-red-500 rounded-full"></div>
+        <div class="w-2 h-2 bg-yellow-500 rounded-full"></div>
+        <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+        <span class="text-xs font-medium text-white ml-2">📝 Knowledge Weaver</span>
+      </div>
+      <div class="flex items-center space-x-1">
+        <button id="opacity-btn" class="text-white/70 hover:text-white text-xs px-2 py-1 rounded">
+          🔍 95%
+        </button>
+        <button id="close-panel" class="text-white/70 hover:text-white text-sm">×</button>
+      </div>
+    </div>
+    
+    <div class="p-4 space-y-4">
+      <!-- Webpage Context (Metadata) -->
+      <div id="context-section" class="bg-gray-800/80 border border-gray-600/50 rounded-lg p-3 space-y-2">
+        <div class="flex items-center justify-between">
+          <h2 class="text-sm font-medium text-blue-300">📄 Context</h2>
+          <button id="toggle-context" class="text-xs text-gray-400 hover:text-gray-200 transition-colors">Hide</button>
+        </div>
+        <div id="context-content" class="text-xs text-gray-300 space-y-2">
+          <div id="page-title" class="font-medium truncate"></div>
+          <div id="page-url" class="text-gray-400 truncate text-xs cursor-pointer hover:text-blue-400" title="Click to open"></div>
+          <div id="page-summary" class="text-gray-300 text-xs leading-relaxed max-h-20 overflow-y-auto bg-gray-700/30 p-2 rounded border-l-2 border-blue-500/30" style="display: none;"></div>
+          <div id="video-info" class="bg-red-600/20 p-2 rounded border border-red-500/30" style="display: none;">
+            <div class="text-red-300 font-medium text-xs mb-1">🎥 YouTube Video</div>
+            <div id="video-title" class="text-xs font-medium"></div>
+            <div id="video-time" class="text-xs text-gray-400 mt-1"></div>
+            <div id="timestamped-url" class="text-xs text-blue-400 mt-1 cursor-pointer hover:text-blue-300" title="Click to open at current time"></div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Note Input Area -->
+      <div class="space-y-3">
+        <textarea 
+          id="note-area" 
+          placeholder="Your notes here... (Press Enter to save and resume video)" 
+          class="w-full h-40 p-3 bg-gray-800/80 border border-gray-600/50 rounded-lg text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none backdrop-blur-sm"
+          autofocus
+        ></textarea>
+        
+        <!-- Quick Actions -->
+        <div class="flex space-x-2">
+          <button 
+            id="save-button" 
+            class="flex-1 py-2 px-3 bg-blue-600/80 hover:bg-blue-700/80 text-white font-medium rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm backdrop-blur-sm"
+          >
+            💾 Save Note
+          </button>
+          <button 
+            id="cancel-button" 
+            class="py-2 px-3 bg-gray-600/80 hover:bg-gray-700/80 text-gray-100 font-medium rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 text-sm backdrop-blur-sm"
+          >
+            ✕
+          </button>
+        </div>
+        
+        <!-- Related Notes Info -->
+        <div id="related-notes" class="text-xs text-gray-400" style="display: none;"></div>
+      </div>
+      
+      <!-- Status/Progress -->
+      <div id="status-section" class="text-xs text-gray-400 text-center" style="display: none;">
+        <div id="status-text">Ready to take notes...</div>
+        <div id="progress-bar" class="w-full bg-gray-700 rounded-full h-1 mt-2" style="display: none;">
+          <div id="progress-fill" class="bg-blue-600 h-1 rounded-full transition-all duration-300" style="width: 0%"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="sidepanel.js"></script>
+</body>
+</html>

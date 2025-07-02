@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Graph Notes</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="popup-container">
+        <!-- Header -->
+        <header class="popup-header">
+            <div class="header-content">
+                <h1>📝 Notes</h1>
+                <div id="userInfo" class="user-info" style="display: none;">
+                    <div class="user-avatar">
+                        <span id="userInitials" class="user-initials"></span>
+                    </div>
+                    <div class="user-details">
+                        <span id="userName" class="user-name"></span>
+                        <span id="userEmail" class="user-email"></span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Authentication Section -->
+        <section id="authSection" class="auth-section">
+            <div class="auth-content">
+                <div class="auth-icon">🔐</div>
+                <h2>Welcome!</h2>
+                <p>Sign in to access your notes across all devices</p>
+                <button id="loginBtn" class="btn-primary">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                    </svg>
+                    Sign in with Google
+                </button>
+                <div id="authStatus" class="status-message"></div>
+            </div>
+        </section>
+
+        <!-- Main Content -->
+        <main id="mainContent" style="display: none;">
+            <!-- Quick Actions -->
+            <section class="quick-actions-section">
+                <h3>Quick Actions</h3>
+                <div class="action-grid">
+                    <button id="openSidePanelBtn" class="action-card">
+                        <div class="action-icon">📝</div>
+                        <div class="action-text">
+                            <div class="action-title">Quick Note</div>
+                            <div class="action-subtitle">Ctrl+Shift+Y</div>
+                        </div>
+                    </button>
+                    
+                    <button id="capturePageBtn" class="action-card">
+                        <div class="action-icon">📄</div>
+                        <div class="action-text">
+                            <div class="action-title">Save Page</div>
+                            <div class="action-subtitle">Current page</div>
+                        </div>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Recent Notes -->
+            <section class="recent-notes-section">
+                <div class="section-header">
+                    <h3>Recent Notes</h3>
+                    <button id="refreshNotesBtn" class="btn-icon" title="Refresh">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search notes..." class="search-input">
+                </div>
+                
+                <div id="recentNotesList" class="notes-list">
+                    <div class="loading">Loading notes...</div>
+                </div>
+                
+                <div class="view-all-container">
+                    <button id="openWebAppBtn" class="btn-link">
+                        View all notes in web app →
+                    </button>
+                </div>
+            </section>
+
+            <!-- Settings/User Actions -->
+            <section class="user-actions-section">
+                <div class="user-actions">
+                    <button id="openSettingsBtn" class="user-action-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/>
+                        </svg>
+                        Settings
+                    </button>
+                    
+                    <button id="logoutBtn" class="user-action-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.59L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+                        </svg>
+                        Sign Out
+                    </button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>
