@@ -1,0 +1,58 @@
+# Git files
+.git
+.gitignore
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+.coverage
+.pytest_cache/
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+
+# Documentation
+*.md
+docs/
+
+# Test files
+test/
+tests/
+*_test.py
+
+# Node modules (if any)
+node_modules/
+
+# Environment files (will be set via Cloud Build)
+.env
+.env.local
+.env.production
+
+# Local data
+data/
+
+# Logs
+*.log
+logs/

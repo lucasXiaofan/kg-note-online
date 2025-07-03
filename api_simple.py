@@ -34,8 +34,12 @@ try:
     import firebase_admin
     from firebase_admin import credentials, firestore
     
-    # Use your actual service account file
-    cred = credentials.Certificate("config/kg-note-credential.json")
+    # Use service account file (local) or service account from environment (Cloud Run)
+    if os.path.exists("config/kg-note-credential.json"):
+        cred = credentials.Certificate("config/kg-note-credential.json")
+    else:
+        # Use default service account in Cloud Run
+        cred = credentials.ApplicationDefault()
     firebase_app = firebase_admin.initialize_app(cred)
     db = firestore.client(database_id="kg-note")
     logger.info("Firebase Admin SDK initialized successfully")
@@ -52,7 +56,9 @@ app.add_middleware(
         "http://localhost:8080",
         "http://127.0.0.1:8080",
         "file://",  # Allow file:// for local HTML files
-        "null"      # Allow null origin for local files
+        "null",     # Allow null origin for local files
+        "https://*.run.app",  # Allow Cloud Run domains
+        "https://*.googleapis.com"  # Allow Google APIs
     ],
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],

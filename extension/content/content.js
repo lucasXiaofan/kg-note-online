@@ -238,7 +238,7 @@ function setupOverlayEvents() {
   if (!noteArea) return;
 
   // Load categories
-  loadCategories(categorySelect);
+  // loadCategories(categorySelect);
 
   // Setup context
   titleEl.textContent = document.title;
@@ -402,6 +402,7 @@ function setupOverlayEvents() {
   // Enter to save
   noteArea.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
+      resumeYouTubeVideo();
       e.preventDefault();
       saveNote();
     }
