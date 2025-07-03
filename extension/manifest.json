@@ -17,9 +17,7 @@
   ],
   
   "host_permissions": [
-    "http://localhost:8000/*",
-    "http://localhost:8080/*",
-    "https://your-production-domain.com/*",
+    "https://updateport-kg-note-185618387669.us-west2.run.app/*",
     "https://www.googleapis.com/*"
   ],
   

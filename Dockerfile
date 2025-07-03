@@ -22,7 +22,7 @@ COPY . .
 RUN mkdir -p data config
 
 # Expose port
-EXPOSE 8000
+EXPOSE 8080
 
 # Set environment variables
 ENV PYTHONUNBUFFERED=1

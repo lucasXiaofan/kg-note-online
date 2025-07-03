@@ -1,7 +1,7 @@
 // Background Service Worker for Knowledge Graph Notes Extension
 class KnowledgeNotesBackground {
     constructor() {
-        this.apiBaseUrl = 'http://localhost:8000'; // Try 8000 first, fallback to 8080 if needed
+        this.apiBaseUrl = 'https://updateport-kg-note-185618387669.us-west2.run.app';
         
         // Add debugging
         console.log('Background script initialized with API URL:', this.apiBaseUrl);
@@ -771,27 +771,17 @@ class KnowledgeNotesBackground {
     }
 
     async tryApiCall(endpoint, options = {}) {
-        const ports = [8000, 8080];
-        let lastError;
+        const url = `${this.apiBaseUrl}${endpoint}`;
+        console.log('Making API call to:', url);
         
-        for (const port of ports) {
-            try {
-                const url = `http://localhost:${port}${endpoint}`;
-                console.log('Trying API call to:', url);
-                const response = await fetch(url, options);
-                
-                // If we get a response (even if not ok), use this port
-                this.apiBaseUrl = `http://localhost:${port}`;
-                console.log('API call successful on port:', port);
-                return response;
-                
-            } catch (error) {
-                console.log(`Port ${port} failed:`, error.message);
-                lastError = error;
-            }
+        try {
+            const response = await fetch(url, options);
+            console.log('API call successful');
+            return response;
+        } catch (error) {
+            console.error('API call failed:', error.message);
+            throw error;
         }
-        
-        throw new Error(`All API ports failed. Last error: ${lastError?.message}`);
     }
 
     showNotification(message, type = 'success') {
