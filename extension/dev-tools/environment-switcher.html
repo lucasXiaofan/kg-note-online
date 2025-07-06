@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KG Note - Environment Switcher</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .status-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #007bff;
+        }
+        .status-card.success {
+            border-left-color: #28a745;
+            background: #d4edda;
+        }
+        .status-card.error {
+            border-left-color: #dc3545;
+            background: #f8d7da;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background-color: #545b62;
+        }
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+        .btn-success:hover {
+            background-color: #218838;
+        }
+        .config-display {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 13px;
+            overflow-x: auto;
+        }
+        .health-check {
+            text-align: center;
+            padding: 20px;
+        }
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .badge-local {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        .badge-production {
+            background-color: #28a745;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 KG Note Environment Switcher</h1>
+        
+        <div class="status-card" id="status-card">
+            <h3>Current Environment: <span class="badge" id="env-badge">Loading...</span></h3>
+            <p><strong>API URL:</strong> <span id="current-url">Loading...</span></p>
+            <p><strong>Status:</strong> <span id="connection-status">Checking...</span></p>
+        </div>
+
+        <div class="button-group">
+            <button class="btn-primary" onclick="switchToLocal()">
+                🏠 Switch to Local
+            </button>
+            <button class="btn-success" onclick="switchToProduction()">
+                ☁️ Switch to Production
+            </button>
+            <button class="btn-secondary" onclick="checkHealth()">
+                🔍 Check Health
+            </button>
+        </div>
+
+        <div class="health-check" id="health-check">
+            <button class="btn-secondary" onclick="runHealthCheck()">
+                🚀 Test Both Endpoints
+            </button>
+        </div>
+
+        <div class="config-display" id="config-display">
+            <h4>Configuration:</h4>
+            <pre id="config-content">Loading...</pre>
+        </div>
+
+        <div class="status-card" id="instructions">
+            <h4>🔍 How to Use:</h4>
+            <ul>
+                <li><strong>Local Development:</strong> Click "Switch to Local" to use your local API server (localhost:8000)</li>
+                <li><strong>Production Testing:</strong> Click "Switch to Production" to use the Google Cloud API</li>
+                <li><strong>Health Check:</strong> Test if the current API endpoint is reachable</li>
+                <li><strong>Extension Testing:</strong> Open your Chrome extension after switching environments</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Load API configuration -->
+    <script src="../config/api-config.js"></script>
+    <script src="../utils/api-client.js"></script>
+    
+    <script>
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            updateDisplay();
+            runInitialHealthCheck();
+        });
+
+        function updateDisplay() {
+            const config = apiClient.getConfig();
+            
+            // Update environment badge
+            const envBadge = document.getElementById('env-badge');
+            envBadge.textContent = config.environment.toUpperCase();
+            envBadge.className = `badge badge-${config.environment}`;
+            
+            // Update URL
+            document.getElementById('current-url').textContent = config.apiUrl;
+            
+            // Update configuration display
+            document.getElementById('config-content').textContent = JSON.stringify(config, null, 2);
+        }
+
+        async function switchToLocal() {
+            try {
+                setLoading(true);
+                apiClient.switchEnvironment('local');
+                updateDisplay();
+                await checkHealth();
+                showNotification('Switched to Local environment', 'success');
+            } catch (error) {
+                showNotification('Error switching to local: ' + error.message, 'error');
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        async function switchToProduction() {
+            try {
+                setLoading(true);
+                apiClient.switchEnvironment('production');
+                updateDisplay();
+                await checkHealth();
+                showNotification('Switched to Production environment', 'success');
+            } catch (error) {
+                showNotification('Error switching to production: ' + error.message, 'error');
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        async function checkHealth() {
+            try {
+                const health = await apiClient.checkHealth();
+                document.getElementById('connection-status').textContent = 
+                    `✅ ${health.status || 'Connected'}`;
+                return true;
+            } catch (error) {
+                document.getElementById('connection-status').textContent = 
+                    `❌ ${error.message}`;
+                return false;
+            }
+        }
+
+        async function runInitialHealthCheck() {
+            await checkHealth();
+        }
+
+        async function runHealthCheck() {
+            const results = [];
+            
+            // Test local
+            try {
+                setLoading(true);
+                apiClient.switchEnvironment('local');
+                const localHealth = await apiClient.checkHealth();
+                results.push({
+                    env: 'Local',
+                    status: '✅ Connected',
+                    url: 'http://localhost:8000',
+                    data: localHealth
+                });
+            } catch (error) {
+                results.push({
+                    env: 'Local',
+                    status: '❌ ' + error.message,
+                    url: 'http://localhost:8000',
+                    data: null
+                });
+            }
+            
+            // Test production
+            try {
+                apiClient.switchEnvironment('production');
+                const prodHealth = await apiClient.checkHealth();
+                results.push({
+                    env: 'Production',
+                    status: '✅ Connected',
+                    url: 'https://updateport-kg-note-185618387669.us-west2.run.app',
+                    data: prodHealth
+                });
+            } catch (error) {
+                results.push({
+                    env: 'Production',
+                    status: '❌ ' + error.message,
+                    url: 'https://updateport-kg-note-185618387669.us-west2.run.app',
+                    data: null
+                });
+            }
+            
+            // Display results
+            const healthCheck = document.getElementById('health-check');
+            healthCheck.innerHTML = `
+                <h4>🔍 Health Check Results:</h4>
+                ${results.map(r => `
+                    <div class="status-card ${r.data ? 'success' : 'error'}">
+                        <strong>${r.env}:</strong> ${r.status}<br>
+                        <small>${r.url}</small>
+                    </div>
+                `).join('')}
+            `;
+            
+            setLoading(false);
+            updateDisplay();
+        }
+
+        function setLoading(loading) {
+            document.body.classList.toggle('loading', loading);
+        }
+
+        function showNotification(message, type) {
+            const statusCard = document.getElementById('status-card');
+            const originalClass = statusCard.className;
+            
+            statusCard.className = `status-card ${type}`;
+            statusCard.innerHTML = `<h3>${message}</h3>`;
+            
+            setTimeout(() => {
+                statusCard.className = originalClass;
+                updateDisplay();
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

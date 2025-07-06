@@ -1,7 +1,9 @@
 // Background Service Worker for Knowledge Graph Notes Extension
 class KnowledgeNotesBackground {
     constructor() {
+        // Initialize API configuration (will be updated from storage)
         this.apiBaseUrl = 'https://updateport-kg-note-185618387669.us-west2.run.app';
+        this.environment = 'production';
         
         // Add debugging
         console.log('Background script initialized with API URL:', this.apiBaseUrl);
@@ -20,8 +22,34 @@ class KnowledgeNotesBackground {
         chrome.contextMenus.onClicked.addListener((info, tab) => this.handleContextMenu(info, tab));
         chrome.runtime.onMessage.addListener((message, sender, sendResponse) => this.handleMessage(message, sender, sendResponse));
         
+        // Load API configuration from storage
+        this.loadApiConfig();
+        
         // Check authentication on startup
         this.checkAuthStatus();
+    }
+
+    async loadApiConfig() {
+        try {
+            const stored = await chrome.storage.local.get(['kg-note-environment']);
+            const environment = stored['kg-note-environment'] || 'production';
+            
+            if (environment === 'local') {
+                this.apiBaseUrl = 'http://localhost:8000';
+                this.environment = 'local';
+            } else {
+                this.apiBaseUrl = 'https://updateport-kg-note-185618387669.us-west2.run.app';
+                this.environment = 'production';
+            }
+            
+            console.log('API configuration loaded:', {
+                environment: this.environment,
+                apiBaseUrl: this.apiBaseUrl
+            });
+        } catch (error) {
+            console.error('Error loading API config:', error);
+            // Keep defaults
+        }
     }
 
     async handleInstall() {
@@ -242,6 +270,21 @@ class KnowledgeNotesBackground {
                     case 'GET_NOTES':
                         console.log('Background: Handling GET_NOTES');
                         result = await this.getNotes();
+                        break;
+                        
+                    case 'GET_CATEGORIES':
+                        console.log('Background: Handling GET_CATEGORIES');
+                        result = await this.getCategories();
+                        break;
+                        
+                    case 'ADD_CATEGORY':
+                        console.log('Background: Handling ADD_CATEGORY');
+                        result = await this.addCategory(message.categoryData);
+                        break;
+                        
+                    case 'DELETE_CATEGORY':
+                        console.log('Background: Handling DELETE_CATEGORY');
+                        result = await this.deleteCategory(message.categoryId);
                         break;
                         
                     case 'LOGOUT':
@@ -723,6 +766,130 @@ class KnowledgeNotesBackground {
             
         } catch (error) {
             console.error('Error getting notes:', error);
+            return { success: false, error: error.message };
+        }
+    }
+
+    async getCategories() {
+        try {
+            console.log('getCategories: Starting to fetch categories...');
+            
+            if (!this.accessToken) {
+                throw new Error('Not authenticated');
+            }
+
+            console.log('getCategories: Making API call...');
+            const response = await this.tryApiCall('/categories', {
+                headers: {
+                    'Authorization': `Bearer ${this.accessToken}`
+                }
+            });
+
+            console.log('getCategories: API response status:', response.status);
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('getCategories: API error:', response.status, errorText);
+                throw new Error(`Failed to get categories: ${response.status} - ${errorText}`);
+            }
+
+            console.log('getCategories: Parsing JSON response...');
+            const result = await response.json();
+            console.log('getCategories: Raw API response:', result);
+            
+            // Handle different response structures
+            let categories = [];
+            if (result.categories) {
+                categories = result.categories;
+            } else if (Array.isArray(result)) {
+                categories = result;
+            }
+            
+            console.log('getCategories: Processed categories:', categories);
+            return { success: true, categories: categories };
+            
+        } catch (error) {
+            console.error('Error getting categories:', error);
+            return { success: false, error: error.message };
+        }
+    }
+
+    async addCategory(categoryData) {
+        try {
+            console.log('addCategory: Starting to add category...', categoryData);
+            
+            if (!this.accessToken) {
+                throw new Error('Not authenticated');
+            }
+
+            console.log('addCategory: Making API call...');
+            const response = await this.tryApiCall('/categories', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${this.accessToken}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(categoryData)
+            });
+
+            console.log('addCategory: API response status:', response.status);
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('addCategory: API error:', response.status, errorText);
+                throw new Error(`Failed to add category: ${response.status} - ${errorText}`);
+            }
+
+            const result = await response.json();
+            console.log('addCategory: Category added:', result);
+            
+            return { 
+                success: true, 
+                category: result.category,
+                category_id: result.category_id
+            };
+            
+        } catch (error) {
+            console.error('Error adding category:', error);
+            return { success: false, error: error.message };
+        }
+    }
+
+    async deleteCategory(categoryId) {
+        try {
+            console.log('deleteCategory: Starting to delete category...', categoryId);
+            
+            if (!this.accessToken) {
+                throw new Error('Not authenticated');
+            }
+
+            console.log('deleteCategory: Making API call...');
+            const response = await this.tryApiCall(`/categories/${categoryId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${this.accessToken}`
+                }
+            });
+
+            console.log('deleteCategory: API response status:', response.status);
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('deleteCategory: API error:', response.status, errorText);
+                throw new Error(`Failed to delete category: ${response.status} - ${errorText}`);
+            }
+
+            const result = await response.json();
+            console.log('deleteCategory: Category deleted:', result);
+            
+            return { 
+                success: true, 
+                message: result.message,
+                deleted_category: result.deleted_category
+            };
+            
+        } catch (error) {
+            console.error('Error deleting category:', error);
             return { success: false, error: error.message };
         }
     }

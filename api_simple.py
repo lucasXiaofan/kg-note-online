@@ -452,28 +452,111 @@ async def get_user_notes(current_user: UserInfo = Depends(verify_token), limit: 
         logger.error(f"Error getting notes: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
-# Legacy category endpoints
+# Category Management Endpoints
 @app.get("/categories")
-async def get_categories():
-    """Get all categories"""
-    return read_categories()
+async def get_user_categories(current_user: UserInfo = Depends(verify_token)):
+    """Get all categories for a user"""
+    logger.info(f"🔍 GET_CATEGORIES called by user: {current_user.user_id}")
+    logger.info(f"🔍 DB Service available: {db_service is not None}")
+    
+    if not db_service:
+        # Fallback to file-based categories
+        return {"categories": read_categories()}
+    
+    try:
+        categories = await db_service.get_user_categories(current_user.user_id)
+        return {"categories": categories}
+        
+    except Exception as e:
+        logger.error(f"Error getting categories: {e}")
+        # Fallback to file-based categories
+        return {"categories": read_categories()}
 
 @app.post("/categories")
-async def add_category(category: Category):
+async def add_category(category: Category, current_user: UserInfo = Depends(verify_token)):
     """Add a new category"""
-    categories = read_categories()
+    logger.info(f"🔍 ADD_CATEGORY called by user: {current_user.user_id}")
+    logger.info(f"🔍 Category data: {category.model_dump()}")
+    logger.info(f"🔍 DB Service available: {db_service is not None}")
     
-    # Check if category already exists
-    for existing in categories:
-        if existing["category"].lower() == category.category.lower():
-            raise HTTPException(status_code=400, detail="Category already exists")
+    if not db_service:
+        # Fallback to file-based categories
+        categories = read_categories()
+        
+        # Check if category already exists
+        for existing in categories:
+            if existing["category"].lower() == category.category.lower():
+                raise HTTPException(status_code=400, detail="Category already exists")
+        
+        categories.append(category.model_dump())
+        write_categories(categories)
+        return {"message": "Category added successfully", "category": category.model_dump()}
     
-    categories.append(category.model_dump())
-    write_categories(categories)
-    return {"message": "Category added successfully", "category": category.model_dump()}
+    try:
+        # Check if category already exists
+        existing_categories = await db_service.get_user_categories(current_user.user_id)
+        for existing in existing_categories:
+            if existing["category"].lower() == category.category.lower():
+                raise HTTPException(status_code=400, detail="Category already exists")
+        
+        category_data = category.model_dump()
+        category_id = await db_service.create_category(current_user.user_id, category_data)
+        
+        return {"message": "Category added successfully", "category_id": category_id, "category": category_data}
+        
+    except Exception as e:
+        logger.error(f"Error adding category: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.put("/categories/{category_id}")
+async def update_category(category_id: str, category: Category, current_user: UserInfo = Depends(verify_token)):
+    """Update a category by ID"""
+    if not db_service:
+        raise HTTPException(status_code=503, detail="Database service not available for updates")
+    
+    try:
+        # Check if category exists
+        existing_category = await db_service.get_category_by_id(current_user.user_id, category_id)
+        if not existing_category:
+            raise HTTPException(status_code=404, detail="Category not found")
+        
+        # Check if new name conflicts with existing categories (excluding current one)
+        existing_categories = await db_service.get_user_categories(current_user.user_id)
+        for existing in existing_categories:
+            if existing["id"] != category_id and existing["category"].lower() == category.category.lower():
+                raise HTTPException(status_code=400, detail="Category name already exists")
+        
+        update_data = category.model_dump()
+        await db_service.update_category(current_user.user_id, category_id, update_data)
+        
+        return {"message": "Category updated successfully", "category": update_data}
+        
+    except Exception as e:
+        logger.error(f"Error updating category: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.delete("/categories/{category_id}")
+async def delete_category(category_id: str, current_user: UserInfo = Depends(verify_token)):
+    """Delete a category by ID"""
+    if not db_service:
+        raise HTTPException(status_code=503, detail="Database service not available for deletions")
+    
+    try:
+        # Check if category exists
+        existing_category = await db_service.get_category_by_id(current_user.user_id, category_id)
+        if not existing_category:
+            raise HTTPException(status_code=404, detail="Category not found")
+        
+        await db_service.delete_category(current_user.user_id, category_id)
+        
+        return {"message": "Category deleted successfully", "deleted_category": existing_category}
+        
+    except Exception as e:
+        logger.error(f"Error deleting category: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/categorize")
-async def categorize_note(note: Note):
+async def categorize_note(note: Note, current_user: UserInfo = Depends(verify_token)):
     """Categorize a note"""
     try:
         if llm_service:
@@ -483,8 +566,27 @@ async def categorize_note(note: Note):
                 'domain': note.metadata.domain if note.metadata else ""
             }
             
-            existing_categories = read_categories()
+            # Get user-specific categories from database, fallback to file
+            if db_service:
+                try:
+                    existing_categories = await db_service.get_user_categories(current_user.user_id)
+                except Exception as e:
+                    logger.error(f"Error getting user categories: {e}")
+                    existing_categories = read_categories()
+            else:
+                existing_categories = read_categories()
+            
             result = await llm_service.categorize_note(note.content, context_data, existing_categories)
+            
+            # Save new categories to user's database if suggested by LLM
+            if db_service and "new_categories" in result and result["new_categories"]:
+                for new_cat in result["new_categories"]:
+                    try:
+                        await db_service.create_category(current_user.user_id, new_cat)
+                        logger.info(f"Added new category to database: {new_cat['category']}")
+                    except Exception as e:
+                        logger.error(f"Error adding new category to database: {e}")
+            
             return result
         else:
             return {"categories": ["General"]}

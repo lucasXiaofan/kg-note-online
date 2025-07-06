@@ -18,7 +18,9 @@
   
   "host_permissions": [
     "https://updateport-kg-note-185618387669.us-west2.run.app/*",
-    "https://www.googleapis.com/*"
+    "https://www.googleapis.com/*",
+    "http://localhost:8000/*",
+    "http://127.0.0.1:8000/*"
   ],
   
   "oauth2": {

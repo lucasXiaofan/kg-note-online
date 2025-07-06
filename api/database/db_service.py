@@ -142,11 +142,49 @@ class DatabaseService:
     async def create_category(self, user_id: str, category_data: dict) -> str:
         """Create a new category for a user"""
         try:
+            category_data['createdAt'] = datetime.now()
+            category_data['updatedAt'] = datetime.now()
             categories_collection = self.db.collection('users').document(user_id).collection('categories')
             doc_ref = categories_collection.add(category_data)
             return doc_ref[1].id
         except Exception as e:
             logger.error(f"Error creating category: {e}")
+            raise
+    
+    async def update_category(self, user_id: str, category_id: str, update_data: dict) -> bool:
+        """Update a category"""
+        try:
+            category_ref = self.db.collection('users').document(user_id).collection('categories').document(category_id)
+            update_data['updatedAt'] = datetime.now()
+            category_ref.update(update_data)
+            return True
+        except Exception as e:
+            logger.error(f"Error updating category: {e}")
+            raise
+    
+    async def delete_category(self, user_id: str, category_id: str) -> bool:
+        """Delete a category"""
+        try:
+            category_ref = self.db.collection('users').document(user_id).collection('categories').document(category_id)
+            category_ref.delete()
+            return True
+        except Exception as e:
+            logger.error(f"Error deleting category: {e}")
+            raise
+    
+    async def get_category_by_id(self, user_id: str, category_id: str) -> Optional[dict]:
+        """Get a specific category by ID"""
+        try:
+            category_ref = self.db.collection('users').document(user_id).collection('categories').document(category_id)
+            doc = category_ref.get()
+            
+            if doc.exists:
+                category_data = doc.to_dict()
+                category_data['id'] = doc.id
+                return category_data
+            return None
+        except Exception as e:
+            logger.error(f"Error getting category by ID: {e}")
             raise
     
     async def get_notes_statistics(self, user_id: str) -> dict:

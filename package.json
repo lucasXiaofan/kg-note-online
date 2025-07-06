@@ -1,0 +1,45 @@
+{
+  "name": "kg-note-online",
+  "version": "2.0.0",
+  "description": "Knowledge Graph Note-taking System",
+  "main": "api.py",
+  "scripts": {
+    "dev": "python3 scripts/run_local.py",
+    "dev:local": "ENVIRONMENT=local python3 scripts/run_local.py",
+    "dev:production": "ENVIRONMENT=production python3 scripts/run_production.py",
+    "start": "python3 -m uvicorn api_simple:app --host 0.0.0.0 --port 8000",
+    "start:local": "ENVIRONMENT=local python3 -m uvicorn api_simple:app --host 0.0.0.0 --port 8000 --reload",
+    "start:production": "ENVIRONMENT=production python3 -m uvicorn api_simple:app --host 0.0.0.0 --port 8000",
+    "test:health": "curl -s http://localhost:8000/health || echo 'Local server not running'",
+    "test:health:prod": "curl -s https://updateport-kg-note-185618387669.us-west2.run.app/health || echo 'Production server not reachable'",
+    "open:switcher": "open extension/dev-tools/environment-switcher.html || xdg-open extension/dev-tools/environment-switcher.html",
+    "setup:env": "cp .env.example .env && echo 'Please configure your .env file'",
+    "deploy": "gcloud run deploy kg-note-api --source . --platform managed --region us-west2"
+  },
+  "keywords": [
+    "knowledge-graph",
+    "note-taking",
+    "chrome-extension",
+    "fastapi",
+    "firebase"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "fastapi": "^0.100.0",
+    "uvicorn": "^0.20.0",
+    "python-dotenv": "^1.0.0",
+    "firebase-admin": "^6.0.0",
+    "openai": "^1.0.0",
+    "pyjwt": "^2.8.0",
+    "google-auth": "^2.0.0",
+    "requests": "^2.31.0"
+  },
+  "devDependencies": {
+    "pytest": "^7.0.0",
+    "pytest-asyncio": "^0.21.0"
+  },
+  "engines": {
+    "python": ">=3.8"
+  }
+}

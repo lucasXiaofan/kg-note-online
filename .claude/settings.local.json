@@ -4,7 +4,8 @@
       "Bash(mkdir:*)",
       "Bash(rm:*)",
       "Bash(python:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(node:*)"
     ],
     "deny": []
   }

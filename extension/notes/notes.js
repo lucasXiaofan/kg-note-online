@@ -67,6 +67,19 @@ class NotesManager {
 
     async loadCategories() {
         try {
+            // First try to load from API
+            const response = await this.sendMessage({ type: 'GET_CATEGORIES' });
+            if (response && response.success && response.categories) {
+                this.categories = response.categories.map(cat => ({
+                    id: cat.id,
+                    name: cat.category,
+                    definition: cat.definition
+                }));
+                console.log('Loaded categories from API:', this.categories.length);
+                return;
+            }
+            
+            // Fallback to local storage
             const stored = await this.getFromStorage(['categories']);
             if (stored.categories && stored.categories.length > 0) {
                 this.categories = stored.categories;
@@ -522,25 +535,66 @@ class NotesManager {
             return;
         }
         
-        const id = name.toLowerCase().replace(/\s+/g, '-');
-        const newCategory = { id, name, definition };
-        
-        this.categories.push(newCategory);
-        await this.saveCategories();
-        
-        document.getElementById('category-name').value = '';
-        document.getElementById('category-definition').value = '';
-        
-        this.renderCategoryList();
-        this.renderCategoryFilters();
+        try {
+            // Try to add category via API
+            const response = await this.sendMessage({ 
+                type: 'ADD_CATEGORY', 
+                categoryData: { 
+                    category: name, 
+                    definition: definition 
+                } 
+            });
+            
+            if (response && response.success) {
+                console.log('Category added via API:', response.category);
+                // Reload categories from API
+                await this.loadCategories();
+            } else {
+                // Fallback to local storage
+                const id = name.toLowerCase().replace(/\s+/g, '-');
+                const newCategory = { id, name, definition };
+                this.categories.push(newCategory);
+                await this.saveCategories();
+            }
+            
+            document.getElementById('category-name').value = '';
+            document.getElementById('category-definition').value = '';
+            
+            this.renderCategoryList();
+            this.renderCategoryFilters();
+            
+        } catch (error) {
+            console.error('Error adding category:', error);
+            alert('Failed to add category. Please try again.');
+        }
     }
 
     async deleteCategory(categoryId) {
         if (confirm('Are you sure you want to delete this category?')) {
-            this.categories = this.categories.filter(cat => cat.id !== categoryId);
-            await this.saveCategories();
-            this.renderCategoryList();
-            this.renderCategoryFilters();
+            try {
+                // Try to delete category via API
+                const response = await this.sendMessage({ 
+                    type: 'DELETE_CATEGORY', 
+                    categoryId: categoryId 
+                });
+                
+                if (response && response.success) {
+                    console.log('Category deleted via API:', categoryId);
+                    // Reload categories from API
+                    await this.loadCategories();
+                } else {
+                    // Fallback to local storage
+                    this.categories = this.categories.filter(cat => cat.id !== categoryId);
+                    await this.saveCategories();
+                }
+                
+                this.renderCategoryList();
+                this.renderCategoryFilters();
+                
+            } catch (error) {
+                console.error('Error deleting category:', error);
+                alert('Failed to delete category. Please try again.');
+            }
         }
     }
 
