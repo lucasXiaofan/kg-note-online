@@ -377,11 +377,16 @@ async def get_current_user(current_user: UserInfo = Depends(verify_token)):
 @app.post("/notes")
 async def create_note(note: Note, current_user: UserInfo = Depends(verify_token)):
     """Create a new note for a user"""
+    logger.info(f"🔍 CREATE_NOTE called by user: {current_user.user_id}")
+    logger.info(f"🔍 DB available: {db is not None}")
+    logger.info(f"🔍 DB Service available: {db_service is not None}")
+    logger.info(f"🔍 LLM Service available: {llm_service is not None}")
+    
     if not db:
         raise HTTPException(status_code=503, detail="Database not available")
     
     try:
-        # Get categorization (with fallback)
+        # Get categorization using user-specific categories from database
         categories = ["General"]
         if llm_service:
             try:
@@ -391,13 +396,40 @@ async def create_note(note: Note, current_user: UserInfo = Depends(verify_token)
                     'domain': note.metadata.domain if note.metadata else ""
                 }
                 
-                existing_categories = read_categories()
+                # Get user-specific categories from database, fallback to file
+                if db_service:
+                    try:
+                        existing_categories = await db_service.get_user_categories(current_user.user_id)
+                        logger.info(f"🔍 Found {len(existing_categories)} user categories for categorization")
+                    except Exception as e:
+                        logger.error(f"Error getting user categories: {e}")
+                        existing_categories = read_categories()
+                else:
+                    existing_categories = read_categories()
+                
                 categorization_result = await llm_service.categorize_note(
                     note.content, 
                     context_data, 
                     existing_categories
                 )
                 categories = categorization_result.get("categories", ["General"])
+                
+                # Save new categories to user's database if suggested by LLM
+                if db_service and "new_categories" in categorization_result and categorization_result["new_categories"]:
+                    for new_cat in categorization_result["new_categories"]:
+                        try:
+                            # Check if category already exists for this user
+                            user_categories = await db_service.get_user_categories(current_user.user_id)
+                            existing_names = [cat["category"].lower() for cat in user_categories]
+                            
+                            if new_cat["category"].lower() not in existing_names:
+                                await db_service.create_category(current_user.user_id, new_cat)
+                                logger.info(f"✅ Added new category to database: {new_cat['category']}")
+                            else:
+                                logger.info(f"⚠️ Category already exists: {new_cat['category']}")
+                        except Exception as e:
+                            logger.error(f"Error adding new category to database: {e}")
+                
             except Exception as e:
                 logger.error(f"LLM categorization failed: {e}")
         
@@ -416,9 +448,15 @@ async def create_note(note: Note, current_user: UserInfo = Depends(verify_token)
             'userId': current_user.user_id
         }
         
+        logger.info(f"📝 Saving note to database for user: {current_user.user_id}")
+        logger.info(f"📝 Note categories: {categories}")
+        logger.info(f"📝 Note content length: {len(note.content)}")
+        
         # Save to Firestore
         notes_collection = db.collection('users').document(current_user.user_id).collection('notes')
         doc_ref = notes_collection.add(note_data)
+        
+        logger.info(f"✅ Note saved successfully with ID: {doc_ref[1].id}")
         
         return {
             "noteId": doc_ref[1].id,

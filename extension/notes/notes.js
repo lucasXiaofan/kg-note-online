@@ -55,6 +55,7 @@ class NotesManager {
                     searchableText: this.createSearchableText(note)
                 }));
                 console.log('Loaded notes:', this.notes.length);
+                console.log('Sample note data:', this.notes[0]); // Debug: see actual note structure
             } else {
                 this.notes = [];
                 console.warn('No notes received from API');
@@ -127,6 +128,12 @@ class NotesManager {
             note.metadata?.domain || '',
             note.category || ''
         ];
+        
+        // Add categories array if it exists
+        if (note.categories && Array.isArray(note.categories)) {
+            parts.push(note.categories.join(' '));
+        }
+        
         return parts.join(' ').toLowerCase();
     }
 
@@ -314,11 +321,18 @@ class NotesManager {
             }
         }
 
-        // Category filter
+        // Category filter - handle both single category and array of categories
         if (this.filters.categories.length > 0) {
-            filtered = filtered.filter(note => 
-                this.filters.categories.includes(note.category)
-            );
+            filtered = filtered.filter(note => {
+                if (note.categories && Array.isArray(note.categories)) {
+                    // Check if any of the note's categories match the filter
+                    return note.categories.some(cat => this.filters.categories.includes(cat));
+                } else if (note.category) {
+                    // Single category
+                    return this.filters.categories.includes(note.category);
+                }
+                return false;
+            });
         }
 
         // Domain filter
@@ -362,9 +376,30 @@ class NotesManager {
     parseNoteDate(timestamp) {
         if (!timestamp) return new Date(0);
         
+        // Handle Firestore timestamp objects
         if (timestamp._seconds) {
             return new Date(timestamp._seconds * 1000);
         }
+        
+        // Handle Firestore timestamp with seconds and nanoseconds
+        if (timestamp.seconds) {
+            return new Date(timestamp.seconds * 1000);
+        }
+        
+        // Handle ISO strings
+        if (typeof timestamp === 'string') {
+            return new Date(timestamp);
+        }
+        
+        // Handle regular timestamp numbers
+        if (typeof timestamp === 'number') {
+            // If timestamp is in seconds (less than year 3000), convert to milliseconds
+            if (timestamp < 32503680000) {
+                return new Date(timestamp * 1000);
+            }
+            return new Date(timestamp);
+        }
+        
         return new Date(timestamp);
     }
 
@@ -397,10 +432,24 @@ class NotesManager {
     }
 
     renderNoteCard(note) {
+        // Handle different data structures from API
         const title = note.metadata?.title || this.truncateText(note.content, 50);
         const content = this.truncateText(note.content, 150);
-        const date = this.formatDate(note.created_at);
-        const category = note.category || 'Uncategorized';
+        
+        // Fix date handling - check multiple possible date fields
+        const dateField = note.createdAt || note.created_at || note.timestamp || note.updatedAt;
+        const date = this.formatDate(dateField);
+        
+        // Fix category handling - categories might be an array
+        let categoryDisplay = 'Uncategorized';
+        if (note.categories && Array.isArray(note.categories) && note.categories.length > 0) {
+            categoryDisplay = note.categories.slice(0, 2).join(', ');
+            if (note.categories.length > 2) {
+                categoryDisplay += ` +${note.categories.length - 2} more`;
+            }
+        } else if (note.category) {
+            categoryDisplay = note.category;
+        }
         
         return `
             <div class="note-card" data-note-id="${note.id}">
@@ -428,7 +477,7 @@ class NotesManager {
                     </div>
                 </div>
                 
-                ${category !== 'Uncategorized' ? `<div class="note-category">${this.escapeHtml(category)}</div>` : ''}
+                ${categoryDisplay !== 'Uncategorized' ? `<div class="note-category">🏷️ ${this.escapeHtml(categoryDisplay)}</div>` : ''}
             </div>
         `;
     }
@@ -496,8 +545,20 @@ class NotesManager {
         document.getElementById('modal-title').textContent = note.metadata?.title || 'Note Details';
         document.getElementById('note-url').textContent = note.metadata?.url || 'No URL';
         document.getElementById('note-url').href = note.metadata?.url || '#';
-        document.getElementById('note-date').textContent = this.formatDate(note.created_at);
-        document.getElementById('note-category').textContent = note.category || 'Uncategorized';
+        
+        // Fix date display
+        const dateField = note.createdAt || note.created_at || note.timestamp || note.updatedAt;
+        document.getElementById('note-date').textContent = this.formatDate(dateField);
+        
+        // Fix category display - handle arrays
+        let categoryText = 'Uncategorized';
+        if (note.categories && Array.isArray(note.categories) && note.categories.length > 0) {
+            categoryText = note.categories.join(', ');
+        } else if (note.category) {
+            categoryText = note.category;
+        }
+        document.getElementById('note-category').textContent = categoryText;
+        
         document.getElementById('note-full-content').textContent = note.content;
         
         this.currentNoteId = note.id;
